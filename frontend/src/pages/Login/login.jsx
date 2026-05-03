@@ -1,6 +1,6 @@
 import { Link, Navigate } from "react-router-dom";
 import { useState, useContext } from "react";
-import { AuthContext } from "../../context/authContext";
+import { AuthContext } from "../../context/AuthContext";
 import "../../styles/auth.css";
 
 export const Login = () => {
@@ -21,18 +21,15 @@ export const Login = () => {
   return (
     <div className="container">
 
-      {/* ESQUERDA */}
       <div className="left-side">
         <div className="left-content">
-          <h1>Bem-vindo ao GamesBit 🎮</h1>
+          <h1>Bem-vindo ao GamesBit</h1>
           <p>
             Reviva seus clássicos favoritos e descubra novos jogos.
-            Sua jornada começa aqui.
           </p>
         </div>
       </div>
 
-      {/* DIREITA */}
       <div className="right-side">
         <form onSubmit={handleSubmit} className="login-form">
 

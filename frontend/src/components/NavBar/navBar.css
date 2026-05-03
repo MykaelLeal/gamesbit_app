@@ -1,0 +1,107 @@
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 30px 40px;
+  background: #5a189a;
+  color: white;
+}
+
+.logo {
+  font-size: 22px;
+  padding-left: 20px;
+  font-weight: bold;
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 30px; /* 👈 aproxima da logo */
+}
+
+/* SEARCH MODERNO */
+.search {
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid #fff;
+  overflow: hidden;
+  width: 320px;
+  backdrop-filter: blur(10px);
+  transition: 0.2s;
+}
+
+/* efeito foco */
+.search:focus-within {
+  border-color: #9d4edd;
+  box-shadow: 0 0 10px rgba(157, 78, 221, 0.4);
+}
+
+/* input */
+.search input {
+  flex: 1;
+  border: none;
+  padding: 10px 12px;
+  outline: none;
+  background: transparent;
+  color: white;
+  font-size: 14px;
+}
+
+.search input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.icon {
+  position: relative;
+  font-size: 22px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.icon:hover {
+  transform: scale(1.1);
+}
+
+.badge {
+  position: absolute;
+  top: -8px;
+  right: -10px;
+  background: red;
+  color: white;
+  font-size: 12px;
+  padding: 2px 6px;
+  border-radius: 50%;
+}
+
+.login {
+  background: transparent;
+  border: 1px solid white;
+  color: white;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+.login:hover {
+    background: linear-gradient(to left, #21d4fd, #b721ff);
+}
+
+.register {
+  background: transparent;
+  border: 1px solid #fff;
+  color: white;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+.register:hover {
+   background: linear-gradient(to left, #21d4fd, #b721ff);
+}

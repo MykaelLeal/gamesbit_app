@@ -4,13 +4,9 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-}
-
-body, html {
   font-family: 'Roboto', sans-serif;
 }
 
-/* ================= CONTAINER ================= */
 .container {
   width: 100%;
   min-height: 100vh;
@@ -18,10 +14,8 @@ body, html {
   background: linear-gradient(135deg, #1f0036, #5f0a87, #a4508b);
 }
 
-/* ================= LADO ESQUERDO ================= */
 .left-side {
   width: 50%;
- 
   display: flex;
   justify-content: center;
   align-items: center;
@@ -30,20 +24,25 @@ body, html {
   text-align: center;
 }
 
+.left-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+}
+
 .left-content h1 {
   font-size: 42px;
   margin-bottom: 20px;
   font-weight: bold;
 
-  /* efeito digitando */
   overflow: hidden;
   white-space: nowrap;
   border-right: 3px solid #fff;
   width: 0;
 
-  animation: typing 2.5s steps(30, end) forwards, blink 0.7s infinite;
+  animation: typing 2s steps(20, end) forwards, blink 0.7s infinite;
+  max-width: fit-content;
 
-  /* glow leve */
   text-shadow: 0 0 5px rgba(183, 174, 174, 0.6);
 }
 
@@ -51,15 +50,16 @@ body, html {
   font-size: 18px;
   opacity: 0;
 
-  /* aparece depois do título */
   animation: fadeText 1.5s ease forwards;
   animation-delay: 2.5s;
 
   line-height: 1.6;
   max-width: 400px;
+
+  margin: 0 auto; 
+  text-align: center;
 }
 
-/* animação de digitação */
 @keyframes typing {
   from {
     width: 0;
@@ -69,14 +69,12 @@ body, html {
   }
 }
 
-/* cursor piscando */
 @keyframes blink {
   50% {
     border-color: transparent;
   }
 }
 
-/* fade do parágrafo */
 @keyframes fadeText {
   from {
     opacity: 0;
@@ -88,7 +86,6 @@ body, html {
   }
 }
 
-/* ================= LADO DIREITO ================= */
 .right-side {
   width: 50%;
   display: flex;
@@ -98,7 +95,6 @@ body, html {
   position: relative;
 }
 
-/* ================= FORM (CARD FLUTUANTE) ================= */
 .login-form {
   width: 100%;
   max-width: 400px;
@@ -106,18 +102,14 @@ body, html {
   padding: 40px 30px;
   border-radius: 15px;
 
-  /* profundidade */
   box-shadow: 0 15px 50px rgba(0, 0, 0, 0.7);
 
-  /* destaque */
   position: relative;
   z-index: 1;
 
-  /* animação */
   animation: fadeIn 0.6s ease;
 }
 
-/* glow gamer */
 .login-form::before {
   content: "";
   position: absolute;
@@ -129,7 +121,7 @@ body, html {
   filter: blur(5px);
 }
 
-/* ================= TÍTULO ================= */
+
 .login-form-title {
   display: block;
   font-size: 30px;
@@ -138,7 +130,6 @@ body, html {
   margin-bottom: 40px;
 }
 
-/* ================= INPUT ================= */
 .wrap-input {
   width: 100%;
   position: relative;
@@ -199,7 +190,6 @@ body, html {
   width: 100%;
 }
 
-/* ================= BOTÃO ================= */
 .container-login-form-btn {
   display: flex;
   justify-content: center;
@@ -224,7 +214,6 @@ body, html {
   opacity: 0.9;
 }
 
-/* ================= TEXTO ================= */
 .text-center {
   display: flex;
   justify-content: center;
@@ -241,7 +230,6 @@ body, html {
   text-decoration: none;
 }
 
-/* ================= ANIMAÇÃO ================= */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -253,7 +241,6 @@ body, html {
   }
 }
 
-/* ================= RESPONSIVO ================= */
 @media (max-width: 768px) {
   .container {
     flex-direction: column;
