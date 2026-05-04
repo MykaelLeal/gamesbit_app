@@ -6,6 +6,8 @@ import { useWishlist } from "../../context/WishlistContext";
 import { useState } from "react";
 
 import "./navBar.css";
+
+import logo from "../../assets/logo.png";
  
  export const NavBar = () => {
     const navigate = useNavigate();
@@ -22,13 +24,14 @@ import "./navBar.css";
 
         <nav className="navbar">
 
-            <div className="nav-left">
+             <div className="logo-container" onClick={() => navigate("/")}>
+                <img src={logo} alt="logo" className="logo-img" />
                 <h2 className="logo">GamesBit</h2>
-
-                <div className="search">
-                   <input type="text" placeholder="Buscar jogos..." />
-                </div>
             </div>
+
+              <div className="search">
+                   <input type="text" placeholder="Buscar jogos..." />
+              </div>
 
 
             <div className="nav-actions">

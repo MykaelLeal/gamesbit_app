@@ -39,16 +39,14 @@
   visibility: hidden;
   transition: 0.25s;
 
-  z-index: 9999; /* 🔥 resolve ficar atrás dos cards */
+  z-index: 9999; 
 }
 
-/* mostrar */
 .menu-item:hover .submenu {
   opacity: 1;
   visibility: visible;
 }
 
-/* itens internos */
 .submenu li {
   padding: 10px 15px;
   cursor: pointer;

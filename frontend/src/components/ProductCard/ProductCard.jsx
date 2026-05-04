@@ -25,7 +25,12 @@ export const ProductCard = ({
 
       <div className="card-info">
         <h3>{product.name}</h3>
-        <span className="price">R$ {product.price}</span>
+       <div className="price-container">
+          {product.oldPrice && (
+            <span className="old-price">R$ {product.oldPrice}</span>
+          )}
+          <span className="price">R$ {product.price}</span>
+        </div>
 
         <button onClick={() => onAdd(product)}>
           Adicionar ao carrinho

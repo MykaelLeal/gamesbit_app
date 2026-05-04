@@ -12,6 +12,8 @@ import { useWishlist } from "../../context/WishlistContext";
 import { products } from "../../data/Products";
 import { Footer } from "../../components/Footer/Footer";
 
+import { Banner } from "../../components/Banner/Banner";
+
 export const Home = () => {
   const navigate = useNavigate();
 
@@ -33,6 +35,8 @@ export const Home = () => {
       <NavBar />
 
       <CategoryMenu />
+
+      <Banner />
 
       <ProductList
         products={products}

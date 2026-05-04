@@ -7,37 +7,48 @@
   color: white;
 }
 
-.logo {
-  font-size: 22px;
-  padding-left: 20px;
-  font-weight: bold;
-}
 
 .nav-left {
   display: flex;
   align-items: center;
-  gap: 30px; /* 👈 aproxima da logo */
+  gap: 10px;
 }
 
-/* SEARCH MODERNO */
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.logo-img {
+  width: 40px;
+  height: 32px;
+  object-fit: contain;
+}
+
+.logo {
+  font-size: 22px;
+  color: white;
+  font-weight: bold;
+}
+
 .search {
   display: flex;
   align-items: center;
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid #fff;
   overflow: hidden;
-  width: 320px;
+  width: 400px;
   backdrop-filter: blur(10px);
   transition: 0.2s;
 }
 
-/* efeito foco */
 .search:focus-within {
   border-color: #9d4edd;
   box-shadow: 0 0 10px rgba(157, 78, 221, 0.4);
 }
 
-/* input */
 .search input {
   flex: 1;
   border: none;
@@ -91,7 +102,7 @@
 }
 
 .login:hover {
-    background: linear-gradient(to left, #21d4fd, #b721ff);
+    background: linear-gradient(135deg, #7b2cbf, #9d4edd);
 }
 
 .register {
@@ -103,5 +114,5 @@
 }
 
 .register:hover {
-   background: linear-gradient(to left, #21d4fd, #b721ff);
+    background: linear-gradient(135deg, #7b2cbf, #9d4edd);
 }
