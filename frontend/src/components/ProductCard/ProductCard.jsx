@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { FiHeart } from "react-icons/fi";
 import { FaHeart } from "react-icons/fa";
 
@@ -9,15 +10,24 @@ export const ProductCard = ({
   onToggleWishlist,
   isLiked,
 }) => {
+  const navigate = useNavigate();
+
+  const goToDetails = () => {
+    navigate(`/product/${product.id}`);
+  };
+
   return (
-    <div className="card">
+    <div className="card" onClick={goToDetails}>
 
       <div className="card-img">
         <img src={product.image} alt={product.name} />
 
         <div
           className="wishlist-icon"
-          onClick={() => onToggleWishlist(product)}
+          onClick={(e) => {
+            e.stopPropagation(); 
+            onToggleWishlist(product);
+          }}
         >
           {isLiked ? <FaHeart color="red" /> : <FiHeart />}
         </div>
@@ -25,14 +35,20 @@ export const ProductCard = ({
 
       <div className="card-info">
         <h3>{product.name}</h3>
-       <div className="price-container">
+
+        <div className="price-container">
           {product.oldPrice && (
             <span className="old-price">R$ {product.oldPrice}</span>
           )}
           <span className="price">R$ {product.price}</span>
         </div>
 
-        <button onClick={() => onAdd(product)}>
+        <button
+          onClick={(e) => {
+            e.stopPropagation(); 
+            onAdd(product);
+          }}
+        >
           Adicionar ao carrinho
         </button>
       </div>

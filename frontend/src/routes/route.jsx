@@ -5,6 +5,7 @@ import { Register } from "../pages/Register/register";
 import { Home } from "../pages/Home/home";
 import { Cart } from "../pages/Cart/cart";
 import { Wishlist } from "../pages/Wishlist/wishlist";
+import { ProductDetails } from "../pages/ProductDetails/ProductDetails";
 
 export const AppRouter = () => {
   return (
@@ -15,6 +16,7 @@ export const AppRouter = () => {
         <Route path="/" element={<Home />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/wishlist" element={<Wishlist />} />
+       <Route path="/product/:id" element={<ProductDetails />} />
       </Routes>
     </Router>
   );

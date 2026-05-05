@@ -14,7 +14,7 @@
 }
 
 .modal {
-  background: #7b2cbf;
+  background: #5a208e;
   padding: 25px;
   border-radius: 10px;
   width: 320px;
@@ -51,7 +51,7 @@
   border: none;
   cursor: pointer;
   color: #fff;
-  background: #581f89;
+  background: linear-gradient(135deg, #7b2cbf, #9d4edd);
   
 }
 

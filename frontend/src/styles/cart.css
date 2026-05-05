@@ -44,6 +44,7 @@ main {
   margin-bottom: 15px;
   font-size: 18px;
   color: #fff;
+  font-weight: bold;
 }
 
 .empty-cart button {
