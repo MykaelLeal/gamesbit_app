@@ -4,7 +4,23 @@
   padding: 40px;
   color: #fff;
   align-items: flex-start;
+  
+}
+
+main {
   background: #3c0f69;
+  padding: 0 30px 30px;
+  min-height: 100vh; 
+}
+
+.details-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 20px;
+  padding-top: 30px;
+  margin-left: 5px;
+  
 }
 
 .details-left {
@@ -74,6 +90,14 @@
   opacity: 0.7;
 }
 
+.description-title {
+  font-size: 18px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  color: #fff;
+  font-weight: 600;
+}
+
 .description {
   background:  #5a189a;
   padding: 20px;
@@ -112,7 +136,7 @@
 .price-details {
   font-size: 28px;
   font-weight: bold;
-  color: #4caf50;
+  color: #fff;
 }
 
 .buy-btn,

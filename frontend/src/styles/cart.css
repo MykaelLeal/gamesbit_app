@@ -4,11 +4,10 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box; 
-}
-
-body {
   font-family: 'Roboto', sans-serif;
 }
+
+
 
 main {
   background: #3c0f69;
@@ -200,7 +199,6 @@ aside {
 
 aside .box {
   background:  #5a189a;
-  border-radius: 12px;
   box-shadow: 0 6px 20px rgba(0,0,0,0.08);
   overflow: hidden;
 }
@@ -236,8 +234,7 @@ aside .box footer {
 aside > button {
   padding: 15px;
   border: none;
-  border-radius: 10px;
-  background: linear-gradient(135deg, #7b2cbf, #9d4edd);
+  background: #21a714;
   color: white;
   font-weight: 600;
   cursor: pointer;

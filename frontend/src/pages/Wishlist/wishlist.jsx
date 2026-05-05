@@ -45,13 +45,12 @@ export const Wishlist = () => {
         ) : (
         <div className="wishlist-grid">
             {wishlist.map((item) => (
-            <ProductCard
-                key={item.id}
-                product={item}
-                onAdd={addItem}
-                onToggleWishlist={toggleWishlist}
-                isInWishlist={() => true}
-                forceWishlist={true}
+            <ProductCard      
+              key={item.id}
+              product={item}
+              onAdd={addItem}
+              onToggleWishlist={toggleWishlist}
+              isLiked={true}
             />
             ))}
         </div>

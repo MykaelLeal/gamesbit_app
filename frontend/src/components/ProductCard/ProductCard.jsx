@@ -38,9 +38,20 @@ export const ProductCard = ({
 
         <div className="price-container">
           {product.oldPrice && (
-            <span className="old-price">R$ {product.oldPrice}</span>
+            <span className="old-price">
+              {product.oldPrice.toLocaleString("pt-BR", {
+                style: "currency",
+                currency: "BRL",
+              })}
+            </span>
           )}
-          <span className="price">R$ {product.price}</span>
+
+          <span className="price">
+            {product.price.toLocaleString("pt-BR", {
+              style: "currency",
+              currency: "BRL",
+            })}
+          </span>
         </div>
 
         <button

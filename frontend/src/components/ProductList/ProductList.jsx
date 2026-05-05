@@ -8,29 +8,19 @@ export const ProductList = ({
   isInWishlist,
 }) => {
   const categories = [
-    { key: "ofertas", title: "Ofertas Imperdíveis", isOffer: true },
-    { key: "modernos", title: "Jogos Modernos" },
-    { key: "classicos", title: "Jogos Clássicos" },
+    { key: "offer", title: "Ofertas Imperdíveis" },
+    { key: "modern", title: "Jogos Modernos" },
+    { key: "classic", title: "Jogos Clássicos" },
     { key: "retro", title: "Jogos Retrô" },
   ];
 
   return (
+
     <div className="product-sections">
       {categories.map((category) => {
-        let filteredProducts = [];
-
-        // 🔥 CASO ESPECIAL: OFERTAS
-        if (category.isOffer) {
-          filteredProducts = products
-            .filter((p) => p.isOffer)
-            .slice(0, 4);
-        } 
-        // 🎮 OUTRAS CATEGORIAS
-        else {
-          filteredProducts = products
-            .filter((p) => p.category === category.key)
-            .slice(0, 4);
-        }
+        const filteredProducts = products
+          .filter((p) => p.type === category.key)
+          .slice(0, 4);
 
         if (filteredProducts.length === 0) return null;
 
@@ -54,4 +44,4 @@ export const ProductList = ({
       })}
     </div>
   );
-};
+  };
