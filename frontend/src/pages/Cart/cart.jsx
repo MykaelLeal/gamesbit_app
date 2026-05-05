@@ -142,7 +142,9 @@ export const Cart = () => {
                 </footer>
               </div>
 
-              <button>Finalizar Compra</button>
+             <button onClick={() => navigate("/checkout")}>
+                 Finalizar compra
+            </button>
             </aside>
           </>
         )}

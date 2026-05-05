@@ -1,0 +1,200 @@
+/* ===== BASE ===== */
+.checkout-page {
+  padding: 20px;
+}
+
+main {
+  background: #3c0f69;
+  padding: 0 30px 30px;
+  min-height: 100vh;
+}
+
+/* ===== HEADER ===== */
+.checkout-header {
+  margin: 30px 0;
+}
+
+.checkout-header h1 {
+  font-size: 28px;
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+.checkout-header p {
+  font-size: 15px;
+  color: #eee;
+}
+
+/* ===== LAYOUT ===== */
+.checkout-container {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.checkout-left {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.checkout-right {
+  flex: 1;
+}
+
+/* ===== CARD ===== */
+.card {
+  background: #5a189a;
+  padding: 20px;
+  
+}
+
+.card h2{
+  color: #fff;
+  margin-bottom: 20px;
+}
+
+/* ===== FORM ===== */
+.checkout-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.checkout-form input {
+  padding: 10px;
+  border: 1px solid #fff;
+  outline: none;
+  background: transparent;
+  color:#fff;
+  
+}
+
+.checkout-form input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.checkout-form .full {
+  grid-column: span 2;
+}
+
+/* LINHA CPF + CELULAR */
+.row {
+  display: flex;
+  gap: 10px;
+  grid-column: span 2;
+}
+
+/* ===== PRODUTOS ===== */
+.order-products {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+/* CARD DO PRODUTO */
+.order-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 10px;
+  border-radius: 10px;
+  transition: 0.2s;
+}
+
+.order-card:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* IMAGEM */
+.order-card img {
+  width: 60px;
+  height: 60px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+/* INFO */
+.order-info {
+  flex: 1;
+}
+
+.order-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.order-qty {
+  font-size: 12px;
+  color: #aaa;
+}
+
+.shipping-method {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #fff;
+  
+}
+
+.payment-method {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #fff;
+  
+}
+
+.shipping-free {
+  color: #00ff88;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+/* PREÇO */
+.order-price {
+  font-weight: bold;
+  color: #fff;
+}
+
+/* ===== RESUMO ===== */
+.summary {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 15px;
+  margin-top: 10px;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #ddd;
+}
+
+.summary-total {
+  display: flex;
+  justify-content: space-between;
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 10px;
+  color: #fff;
+}
+
+/* ===== BOTÃO ===== */
+.finish-btn-checkout {
+  width: 100%;
+  margin-top: 15px;
+  padding: 12px;
+  background: #00c853;
+  border: none;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
