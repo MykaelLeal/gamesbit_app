@@ -9,10 +9,9 @@ export function WishlistProvider({ children }) {
     const exists = wishlist.find((item) => item.id === product.id);
 
     if (exists) {
-      // remove
       setWishlist(wishlist.filter((item) => item.id !== product.id));
     } else {
-      // adiciona
+  
       setWishlist([...wishlist, product]);
     }
   };
