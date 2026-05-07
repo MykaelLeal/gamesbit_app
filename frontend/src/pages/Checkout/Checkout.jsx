@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useCart } from "../../context/CartContext";
+import { useOrders } from "../../context/OrdersContext";
 import { useNavigate } from "react-router-dom";
 
 
@@ -11,6 +12,7 @@ export const Checkout = () => {
   const navigate = useNavigate();
 
   const { cart, total, clearCart } = useCart();
+  const { addOrder } = useOrders();
   const [showSuccess, setShowSuccess] = useState(false);
 
   if (cart.length === 0) {
@@ -26,9 +28,11 @@ export const Checkout = () => {
 
   const handleFinishOrder = () => {
     if (cart.length === 0) return;
+    
+    addOrder(cart, total);
 
     setShowSuccess(true);
-    };
+  };
 
   return (
 
@@ -36,7 +40,6 @@ export const Checkout = () => {
 
     <div className="checkout-page">
 
-      {/* HEADER */}
       <header className="checkout-header">
         <h1>Finalizar Compra</h1>
         <p>Confira seus dados e conclua seu pedido com segurança</p>
@@ -161,11 +164,14 @@ export const Checkout = () => {
         <SuccessModal
         isOpen={showSuccess}
         onClose={() => {
-            setShowSuccess(false);
+          setShowSuccess(false);
+
+          setTimeout(() => {
             clearCart();
             navigate("/");
+          }, 100);
         }}
-    />
+      />
 
     </main>
     );

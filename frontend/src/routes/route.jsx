@@ -8,6 +8,7 @@ import { Wishlist } from "../pages/Wishlist/wishlist";
 import { ProductDetails } from "../pages/ProductDetails/ProductDetails";
 import { Checkout } from "../pages/Checkout/Checkout";
 import { Products } from "../pages/Products/Products";
+import { MyOrders } from "../pages/MyOrders/MyOrders";
 
 export const AppRouter = () => {
   return (
@@ -20,7 +21,8 @@ export const AppRouter = () => {
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/product/:id" element={<ProductDetails />} />
         <Route path="/checkout" element={<Checkout />} />
-        <Route path="/products/:platform/:category" element={<Products />} />        
+        <Route path="/products/:platform/:category" element={<Products />} />  
+        <Route path="/orders" element={<MyOrders />} />      
       </Routes>
     </Router>
   );
