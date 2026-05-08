@@ -1,0 +1,216 @@
+.admin-page {
+  display: flex;
+  min-height: 100vh;
+}
+
+.admin-sidebar {
+  width: 280px;
+
+  background: #5a189a;
+
+  border-right: 1px solid rgba(255,255,255,0.08);
+
+  padding: 25px;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-logo {
+  margin-bottom: 40px;
+}
+
+.admin-logo h2 {
+  color: white;
+  margin-bottom: 8px;
+}
+
+.admin-logo p {
+  color: #9ca3af;
+  font-size: 14px;
+}
+
+.admin-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.admin-menu button {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  background: transparent;
+
+  border: 1px solid rgba(255,255,255,0.08);
+
+  padding: 14px;
+
+  color: white;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+}
+
+.admin-menu button:hover,
+.admin-menu .active {
+  background: #8b5cf6;
+}
+
+.logout-btn {
+  margin-top: 30px;
+}
+
+.admin-content {
+  flex: 1;
+
+  padding: 30px;
+}
+
+.admin-header {
+  margin-bottom: 30px;
+}
+
+.admin-tag {
+  background: #8b5cf6;
+
+  color: white;
+
+  padding: 8px 14px;
+
+  border-radius: 999px;
+
+  font-size: 13px;
+
+  display: inline-block;
+
+  margin-bottom: 18px;
+}
+
+.admin-header h1 {
+  color: white;
+
+  font-size: 36px;
+
+  margin-bottom: 12px;
+}
+
+.admin-header p {
+  color: #9ca3af;
+
+  max-width: 700px;
+
+  line-height: 1.6;
+}
+
+
+.admin-card {
+  background: rgba(255,255,255,0.04);
+
+  border: 1px solid rgba(255,255,255,0.08);
+
+  padding: 25px;
+
+  margin-bottom: 25px;
+}
+
+.card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 25px;
+}
+
+.card-top h2 {
+  color: white;
+}
+
+.add-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  background: #8b5cf6;
+
+  border: none;
+
+  color: white;
+
+  padding: 12px 16px;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+}
+
+.add-btn:hover {
+  transform: translateY(-2px);
+}
+
+.crud-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.crud-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  background: rgba(255,255,255,0.03);
+
+  border: 1px solid rgba(255,255,255,0.06);
+
+  padding: 18px;
+
+}
+
+.crud-item h3 {
+  color: white;
+
+  margin-bottom: 6px;
+}
+
+.crud-item span {
+  color: #9ca3af;
+}
+
+.crud-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.crud-actions button {
+  width: 42px;
+  height: 42px;
+
+  border: none;
+
+  background: rgba(255,255,255,0.06);
+
+  color: white;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+}
+
+.crud-actions button:hover {
+  background: #8b5cf6;
+}
+
+@media (max-width: 900px) {
+
+  .admin-page {
+    flex-direction: column;
+  }
+
+  .admin-sidebar {
+    width: 100%;
+  }
+
+}
