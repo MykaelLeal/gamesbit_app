@@ -9,6 +9,7 @@ import { ProductDetails } from "../pages/ProductDetails/ProductDetails";
 import { Checkout } from "../pages/Checkout/Checkout";
 import { Products } from "../pages/Products/Products";
 import { MyOrders } from "../pages/MyOrders/MyOrders";
+import { Profile } from "../pages/Profile/Profile";
 
 export const AppRouter = () => {
   return (
@@ -22,7 +23,8 @@ export const AppRouter = () => {
         <Route path="/product/:id" element={<ProductDetails />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/products/:platform/:category" element={<Products />} />  
-        <Route path="/orders" element={<MyOrders />} />      
+        <Route path="/orders" element={<MyOrders />} />  
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </Router>
   );
