@@ -5,6 +5,9 @@ import { useCart } from "../../context/CartContext";
 import { useWishlist } from "../../context/WishlistContext";
 import { useState } from "react";
 
+import { products } from "../../data/Products";
+
+
 import "./navBar.css";
 
 import logo from "../../assets/logo.png";
@@ -12,12 +15,23 @@ import logo from "../../assets/logo.png";
  export const NavBar = () => {
     const navigate = useNavigate();
 
+    const [search, setSearch] = useState("");
+
     const { addItem, cart } = useCart();
     const { wishlist, toggleWishlist, isInWishlist } = useWishlist();
 
     const totalItems = cart.reduce(
      (acc, item) => acc + item.quantity, 0
     );
+
+    const filteredProducts =
+        search.trim().length > 0
+            ? products.filter((product) =>
+                product.name
+                    .toLowerCase()
+                    .startsWith(search.toLowerCase())
+            )
+            : [];
 
 
     return(
@@ -29,9 +43,51 @@ import logo from "../../assets/logo.png";
                 <h2 className="logo">GamesBit</h2>
             </div>
 
-              <div className="search">
-                   <input type="text" placeholder="Buscar jogos..." />
-              </div>
+               <div className="search">
+                <input
+                    type="text"
+                    placeholder="Buscar jogos..."
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                />
+                {search && (
+
+                    <div className="search-dropdown">
+                        {filteredProducts.length > 0 ? (
+                            filteredProducts.map((product) => (
+                                <div
+                                    key={product.id}
+                                    className="search-item"
+                                    onClick={() => {
+                                        navigate(`/product/${product.id}`);
+                                        setSearch("");
+                                    }}
+                                >
+                                    <img
+                                        src={product.image}
+                                        alt={product.name}
+                                    />
+
+                                    <span>
+                                        {product.name}
+                                    </span>
+
+                                </div>
+
+                            ))
+
+                        ) : (
+                            <p className="no-results">
+                                Nenhum jogo encontrado
+                            </p>
+
+                        )}
+
+                    </div>
+
+                )}
+
+            </div>
 
 
             <div className="nav-actions">

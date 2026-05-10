@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { NavBar } from "../../components/NavBar/NavBar";
 import { CategoryMenu } from "../../components/CategoryMenu/CategoryMenu";
@@ -15,7 +15,12 @@ import { Footer } from "../../components/Footer/Footer";
 import { Banner } from "../../components/Banner/Banner";
 
 export const Home = () => {
+
   const navigate = useNavigate();
+
+  const [searchParams] = useSearchParams();
+
+  const search = searchParams.get("search") || "";
 
   const { addItem } = useCart();
   const { toggleWishlist, isInWishlist } = useWishlist();
@@ -29,6 +34,13 @@ export const Home = () => {
     setShowModal(true);
   };
 
+  
+  const filteredProducts = products.filter((product) =>
+    product.name
+      .toLowerCase()
+      .includes(search.toLowerCase())
+  );
+
   return (
     <div className="home">
 
@@ -39,7 +51,7 @@ export const Home = () => {
       <Banner />
 
       <ProductList
-        products={products}
+        products={filteredProducts}
         onAdd={handleAdd}
         onToggleWishlist={toggleWishlist}
         isInWishlist={isInWishlist}
@@ -54,7 +66,6 @@ export const Home = () => {
         onGoCart={() => navigate("/cart")}
       />
 
-     
     </div>
   );
 };

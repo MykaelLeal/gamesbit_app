@@ -1,29 +1,40 @@
+*{
+  box-sizing: border-box;
+}
+
 .navbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 30px 40px;
+  width: 100%;
+
+  padding: 20px 40px;
+
   background: #5a189a;
   color: white;
-}
 
+  position: relative;
+  z-index: 1000;
+}
 
 .nav-left {
   display: flex;
   align-items: center;
-  gap: 10px;
-}
+  gap: 20px;
 
+  flex: 1;
+}
 .logo-container {
   display: flex;
   align-items: center;
   gap: 8px;
   cursor: pointer;
+  flex-shrink: 0;
 }
 
 .logo-img {
-  width: 40px;
-  height: 32px;
+  width: 50px;
+  height: 60px;
   object-fit: contain;
 }
 
@@ -34,13 +45,20 @@
 }
 
 .search {
+  position: relative;
+
   display: flex;
   align-items: center;
+
+  width: 100%;
+  max-width: 400px;
+
   background: rgba(255, 255, 255, 0.08);
+
   border: 1px solid #fff;
-  overflow: hidden;
-  width: 400px;
+
   backdrop-filter: blur(10px);
+
   transition: 0.2s;
 }
 
@@ -50,10 +68,10 @@
 }
 
 .search input {
-  flex: 1;
+  width: 100%;
   border: none;
-  padding: 10px 12px;
   outline: none;
+  padding: 10px 12px;
   background: transparent;
   color: white;
   font-size: 14px;
@@ -63,11 +81,56 @@
   color: rgba(255, 255, 255, 0.6);
 }
 
+.search-dropdown {
+  position: absolute;
+  top: 110%;
+  left: 0;
+  width: 100%;
+  background: #5a189a;
+  border-radius: 10px;
+  z-index: 9999;
+  overflow-y: auto;
+  max-height: 350px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+}
+
+.search-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.search-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.search-item img {
+  width: 45px;
+  min-width: 45px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.search-item span {
+  color: white;
+  font-size: 14px;
+}
+
+.no-results {
+  padding: 12px;
+  color: #aaa;
+}
 
 .nav-actions {
   display: flex;
   align-items: center;
   gap: 15px;
+
+  flex-shrink: 0;
 }
 
 .icon {
@@ -76,6 +139,7 @@
   cursor: pointer;
   display: flex;
   align-items: center;
+  transition: 0.2s;
 }
 
 .icon:hover {
@@ -93,26 +157,18 @@
   border-radius: 50%;
 }
 
-.login {
-  background: transparent;
-  border: 1px solid white;
-  color: white;
-  padding: 6px 12px;
-  cursor: pointer;
-}
-
-.login:hover {
-    background: linear-gradient(135deg, #7b2cbf, #9d4edd);
-}
-
+.login,
 .register {
   background: transparent;
   border: 1px solid #fff;
   color: white;
   padding: 6px 12px;
   cursor: pointer;
+  transition: 0.2s;
+  white-space: nowrap;
 }
 
+.login:hover,
 .register:hover {
-    background: linear-gradient(135deg, #7b2cbf, #9d4edd);
+  background: linear-gradient(135deg, #7b2cbf, #9d4edd);
 }
