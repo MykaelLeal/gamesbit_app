@@ -3,6 +3,8 @@ import { useCart } from "../../context/CartContext";
 import { useOrders } from "../../context/OrdersContext";
 import { useNavigate } from "react-router-dom";
 
+import { useContext, useEffect } from "react";
+import { AuthContext } from "../../context/AuthContext";
 
 import { SuccessModal } from "../../components/SucessModal/SucessModal";
 
@@ -11,28 +13,80 @@ import "./checkout.css";
 export const Checkout = () => {
   const navigate = useNavigate();
 
+  const { user } = useContext(AuthContext);
+
   const { cart, total, clearCart } = useCart();
   const { addOrder } = useOrders();
   const [showSuccess, setShowSuccess] = useState(false);
 
-  if (cart.length === 0) {
-    return (
-      <div className="checkout-page">
-        <h2>Seu carrinho está vazio</h2>
-        <button onClick={() => navigate("/")}>
-          Voltar para loja
-        </button>
-      </div>
+  const [profile, setProfile] =
+    useState({
+      name: "",
+      email: "",
+      cpf: "",
+      phone: "",
+      cep: "",
+    });
+
+  useEffect(() => {
+
+  const storedProfile =
+    JSON.parse(
+      localStorage.getItem(
+        `@profile:${user.id}`
+      )
     );
+
+  if (storedProfile) {
+
+    setProfile({
+      name: storedProfile.name || "",
+      email: storedProfile.email || "",
+      cpf: storedProfile.cpf || "",
+      phone: storedProfile.phone || "",
+      cep: storedProfile.cep || "",
+    });
+
   }
 
-  const handleFinishOrder = () => {
-    if (cart.length === 0) return;
-    
-    addOrder(cart, total);
+}, [user]);
 
-    setShowSuccess(true);
-  };
+
+ const handleFinishOrder = () => {
+
+  if (cart.length === 0) return;
+
+  // salva profile atualizado
+  localStorage.setItem(
+    `@profile:${user.id}`,
+    JSON.stringify(profile)
+  );
+
+  // cria pedido completo
+  addOrder(
+    cart,
+    total,
+    {
+      customer: {
+        name: profile.name,
+        email: profile.email,
+        cpf: profile.cpf,
+        phone: profile.phone,
+        cep: profile.cep,
+      },
+
+      paymentMethod: "PIX",
+
+      status: "Processando",
+    }
+  );
+
+  // limpa carrinho
+  clearCart();
+
+  // abre modal
+  setShowSuccess(true);
+};
 
   return (
 
@@ -53,16 +107,71 @@ export const Checkout = () => {
             <h2>Informações Pessoais</h2>
 
             <form className="checkout-form">
-                <input type="text" placeholder="Nome completo" className="full" />
+               <input
+                  type="text"
+                  placeholder="Nome completo"
+                  className="full"
+                  value={profile.name}
+                  onChange={(e) =>
+                    setProfile({
+                      ...profile,
+                      name: e.target.value,
+                    })
+                  }
+                />
                 
-                <input type="email" placeholder="Email" className="full" />
+               <input
+                  type="email"
+                  placeholder="Email"
+                  className="full"
+                  value={profile.email}
+                  onChange={(e) =>
+                    setProfile({
+                      ...profile,
+                      email: e.target.value,
+                    })
+                  }
+                />
 
                 <div className="row">
-                    <input type="text" placeholder="CPF" />
-                    <input type="text" placeholder="Celular" />
+                    <input
+                      type="text"
+                      placeholder="CPF"
+                      value={profile.cpf}
+                      onChange={(e) =>
+                        setProfile({
+                          ...profile,
+                          cpf: e.target.value,
+                        })
+                      }
+                    />
+
+                    <input
+                      type="text"
+                      placeholder="Celular"
+                      value={profile.phone}
+                      onChange={(e) =>
+                        setProfile({
+                          ...profile,
+                          phone: e.target.value,
+                        })
+                      }
+                    />
+
                 </div>
 
-                <input type="text" placeholder="CEP" className="full" />
+                  <input
+                    type="text"
+                    placeholder="CEP"
+                    className="full"
+                    value={profile.cep}
+                    onChange={(e) =>
+                      setProfile({
+                        ...profile,
+                        cep: e.target.value,
+                      })
+                    }
+                  />
                 </form>
           </div>
 
@@ -164,12 +273,11 @@ export const Checkout = () => {
         <SuccessModal
         isOpen={showSuccess}
         onClose={() => {
+
           setShowSuccess(false);
 
-          setTimeout(() => {
-            clearCart();
-            navigate("/");
-          }, 100);
+          navigate("/");
+
         }}
       />
 

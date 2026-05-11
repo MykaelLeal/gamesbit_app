@@ -1,58 +1,95 @@
-import { createContext } from "react";
-import { useState } from "react";
-import { useEffect } from "react";
-import { Navigate } from "react-router-dom";
-import { api } from "../service/api";
+import {
+  createContext,
+  useEffect,
+  useState,
+} from "react";
 
-export const AuthContext = createContext();
+export const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const loadingStoreData = () => {
-      const storageUser = localStorage.getItem("@Auth:user");
-      const storageToken = localStorage.getItem("@Auth:token");
+    const storageUser = localStorage.getItem("@Auth:user");
 
-      if (storageUser && storageToken) {
-        setUser(storageUser);
-      }
-    };
-    loadingStoreData();
+    if (storageUser) {
+      setUser(JSON.parse(storageUser));
+    }
   }, []);
 
-  const signIn = async ({ email, password }) => {
-    try {
-      const response = await api.post("/auth", { email, password });
-      if (response.data.error) {
-        alert(response.data.error);
-      } else {
-        setUser(response.data);
-        api.defaults.headers.common[
-          "Authorization"
-        ] = `Bearer ${response.data.token}`;
-
-        localStorage.setItem("@Auth:user", JSON.stringify(response.data.user));
-        localStorage.setItem("@Auth:token", response.data.token);
-      }
-    } catch (error) {
-      console.log(error);
+  useEffect(() => {
+    if (user) {
+      localStorage.setItem(
+        "@Auth:user",
+        JSON.stringify(user)
+      );
     }
+  }, [user]);
+
+  const signIn = ({ email, password }) => {
+    const users =
+      JSON.parse(localStorage.getItem("@Auth:users")) || [];
+
+    const foundUser = users.find(
+      (user) =>
+        user.email === email &&
+        user.password === password
+    );
+
+    if (!foundUser) {
+      return null;
+    }
+
+    setUser(foundUser);
+
+    return foundUser;
   };
 
-  const singOut = () => {
-    localStorage.clear();
+  const register = ({ name, email, password }) => {
+    const users =
+      JSON.parse(localStorage.getItem("@Auth:users")) || [];
+
+    const emailExists = users.find(
+      (user) => user.email === email
+    );
+
+    if (emailExists) {
+      return false;
+    }
+
+    const newUser = {
+      id: crypto.randomUUID(),
+      name,
+      email,
+      password,
+      role: "user",
+      avatar: "",
+    };
+
+    users.push(newUser);
+
+    localStorage.setItem(
+      "@Auth:users",
+      JSON.stringify(users)
+    );
+
+    return true;
+  };
+
+  const signOut = () => {
+    localStorage.removeItem("@Auth:user");
     setUser(null);
-    return <Navigate to="/" />;
   };
 
   return (
     <AuthContext.Provider
       value={{
         user,
-        signIn,
-        singOut,
+        setUser,
         signed: !!user,
+        signIn,
+        register,
+        signOut,
       }}
     >
       {children}

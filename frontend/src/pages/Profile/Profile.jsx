@@ -1,127 +1,311 @@
 import { useNavigate } from "react-router-dom";
+
 import {
   FiUser,
   FiShoppingBag,
   FiHeart,
   FiLogOut,
-  FiEdit2 
+  FiEdit2,
+  FiSave,
 } from "react-icons/fi";
 
-import { NavBar } from "../../components/NavBar/NavBar";
-import { Footer } from "../../components/Footer/Footer";
-import { CategoryMenu } from "../../components/CategoryMenu/CategoryMenu";
+import {useContext, useEffect, useState} from "react";
+
+import { AuthContext } from "../../context/AuthContext";
 
 import "./profile.css";
 
 export const Profile = () => {
+
   const navigate = useNavigate();
 
-  const user = {
-    name: "Mykael",
-    email: "mykael@email.com",
-    cpf: "000.000.000-00",
-    phone: "(83) 99999-9999",
-    avatar:
-      "https://i.pravatar.cc/200",
+  const { user, setUser, signOut } = useContext(AuthContext);
+
+  const [editing, setEditing] = useState(false);
+
+  const [profile, setProfile] = useState({
+    name: "",
+    email: "",
+    cpf: "",
+    phone: "",
+    avatar: "",
+  });
+
+  useEffect(() => {
+    if (user) {
+      setProfile(user);
+    }
+  }, [user]);
+
+  const saveProfile = () => {
+    if (!profile) return;
+
+    const updatedUser = {
+      ...user,
+      ...profile,
+      avatar: profile.avatar || user.avatar
+    };
+
+    setUser(updatedUser);
+
+    localStorage.setItem(
+      "@Auth:user",
+      JSON.stringify(updatedUser)
+    );
+
+    const users =
+      JSON.parse(localStorage.getItem("@Auth:users")) || [];
+
+      const updatedUsers = users.map((u) =>
+        u.id === updatedUser.id ? updatedUser : u
+      );
+
+
+    setEditing(false);
   };
 
   const handleLogout = () => {
+    signOut();
     navigate("/login");
   };
 
   return (
-    <div>
+    <main className="profile-page">
 
-      <main className="profile-page">
-        <div className="profile-container">
+      <div className="profile-container">
 
-          <aside className="profile-sidebar">
-            <div className="profile-user">
-              <img src={user.avatar} alt={user.name} />
+        <aside className="profile-sidebar">
 
-              <h3>{user.name}</h3>
-              <p>{user.email}</p>
+          <div className="profile-user">
+
+            <img
+              src={profile.avatar}
+              alt={profile.name}
+            />
+
+            <h3>{profile.name}</h3>
+
+            <p>{profile.email}</p>
+
+          </div>
+
+          <nav className="profile-menu">
+
+            <button
+              onClick={() =>
+                navigate("/orders")
+              }
+            >
+              <FiShoppingBag />
+              Meus Pedidos
+            </button>
+
+            <button
+              onClick={() =>
+                navigate("/wishlist")
+              }
+            >
+              <FiHeart />
+              Minha Lista de Desejos
+            </button>
+
+            <button
+              className="logout-btn"
+              onClick={handleLogout}
+            >
+              <FiLogOut />
+              Sair
+            </button>
+
+          </nav>
+        </aside>
+
+        <section className="profile-content">
+
+          <div className="profile-card hero-card">
+
+            <div>
+
+              <span className="profile-tag">
+                Visão Geral
+              </span>
+
+              <h1>
+                Bem-vindo, {profile.name}
+              </h1>
+
+              <p>
+                Gerencie sua conta,
+                acompanhe seus pedidos
+                e visualize seus jogos
+                favoritos em um só lugar.
+              </p>
+
             </div>
 
-            <nav className="profile-menu">
-              <button>
-                <FiUser />
-                Minha Conta
-              </button>
+            <img
+              src={profile.avatar}
+              alt={profile.name}
+            />
 
-              <button onClick={() => navigate("/orders")}>
-                <FiShoppingBag />
-                Meus Pedidos
-              </button>
+          </div>
 
-              <button onClick={() => navigate("/wishlist")}>
-                <FiHeart />
-                Minha Lista de Desejos
-              </button>
+          <div className="profile-card">
 
-              <button className="logout-btn" onClick={handleLogout}>
-                <FiLogOut />
-                Sair
-              </button>
-            </nav>
-          </aside>
+            <div className="card-header">
 
-          <section className="profile-content">
+              <h2>Dados da Conta</h2>
 
-            <div className="profile-card hero-card">
-              <div>
-                <span className="profile-tag">Visão Geral</span>
+              {!editing ? (
 
-                <h1>Bem-vindo {user.name}</h1>
+                <button
+                  className="edit-profile-btn"
+                  onClick={() =>
+                    setEditing(true)
+                  }
+                >
+                  <FiEdit2 />
+                  Editar Dados
+                </button>
 
-                <p>
-                  Gerencie sua conta, acompanhe seus pedidos e visualize
-                  seus jogos favoritos em um só lugar.
-                </p>
+              ) : (
+
+                <button
+                  className="edit-profile-btn"
+                  onClick={saveProfile}
+                >
+                  <FiSave />
+                  Salvar
+                </button>
+
+              )}
+
+            </div>
+
+            <div className="profile-info-grid">
+
+              <div className="info-box">
+
+                <span>Nome Completo</span>
+
+                {editing ? (
+
+                  <input
+                    value={profile.name}
+                    onChange={(e) =>
+                      setProfile({
+                        ...profile,
+                        name: e.target.value,
+                      })
+                    }
+                  />
+
+                ) : (
+
+                  <strong>
+                    {profile.name}
+                  </strong>
+
+                )}
+
               </div>
 
-              <img src={user.avatar} alt={user.name} />
-            </div>
+              <div className="info-box">
 
+                <span>Email</span>
 
-            <div className="profile-card">
-              <div className="card-header">
-                <h2>Dados da Conta</h2>
-
-                    <button className="edit-profile-btn">
-                        <FiEdit2 />
-                        Editar Dados
-                    </button>
-                </div>
-
-              <div className="profile-info-grid">
-
-                <div className="info-box">
-                  <span>Nome Completo</span>
-                  <strong>{user.name}</strong>
-                </div>
-
-                <div className="info-box">
-                  <span>Email</span>
-                  <strong>{user.email}</strong>
-                </div>
-
-                <div className="info-box">
-                  <span>CPF</span>
-                  <strong>{user.cpf}</strong>
-                </div>
-
-                <div className="info-box">
-                  <span>Telefone</span>
-                  <strong>{user.phone}</strong>
-                </div>
+                <strong>
+                  {profile.email}
+                </strong>
 
               </div>
+
+              <div className="info-box">
+
+                <span>CPF</span>
+
+                {editing ? (
+
+                  <input
+                    value={profile.cpf}
+                    onChange={(e) =>
+                      setProfile({
+                        ...profile,
+                        cpf: e.target.value,
+                      })
+                    }
+                  />
+
+                ) : (
+
+                  <strong>
+                    {profile.cpf || "Não informado"}
+                  </strong>
+
+                )}
+
+              </div>
+
+              <div className="info-box">
+
+                <span>Telefone</span>
+
+                {editing ? (
+
+                  <input
+                    value={profile.phone}
+                    onChange={(e) =>
+                      setProfile({
+                        ...profile,
+                        phone: e.target.value,
+                      })
+                    }
+                  />
+
+                ) : (
+
+                  <strong>
+                    {profile.phone || "Não informado"}
+                  </strong>
+
+                )}
+
+              </div>
+
+              <div className="info-box full-width">
+
+                <span>Avatar URL</span>
+
+                {editing ? (
+
+                  <input
+                    value={profile.avatar}
+                    onChange={(e) =>
+                      setProfile({
+                        ...profile,
+                        avatar: e.target.value,
+                      })
+                    }
+                  />
+
+                ) : (
+
+                  <strong>
+                    Avatar personalizado
+                  </strong>
+
+                )}
+
+              </div>
+
             </div>
 
-          </section>
-        </div>
-      </main>
-    </div>
+          </div>
+
+        </section>
+
+      </div>
+
+    </main>
   );
 };

@@ -1,134 +1,265 @@
 import { useNavigate } from "react-router-dom";
-import { FiShoppingCart, FiHeart } from "react-icons/fi";
+import {
+  FiShoppingCart,
+  FiHeart,
+  FiUser,
+  FiLogOut,
+  FiPackage,
+  FiSettings,
+} from "react-icons/fi";
+
 import { FaHeart } from "react-icons/fa";
+
 import { useCart } from "../../context/CartContext";
 import { useWishlist } from "../../context/WishlistContext";
-import { useState } from "react";
+import { AuthContext } from "../../context/AuthContext";
+
+import {
+  useState,
+  useContext,
+} from "react";
 
 import { products } from "../../data/Products";
-
 
 import "./navBar.css";
 
 import logo from "../../assets/logo.png";
- 
- export const NavBar = () => {
-    const navigate = useNavigate();
 
-    const [search, setSearch] = useState("");
+export const NavBar = () => {
+  const navigate = useNavigate();
 
-    const { addItem, cart } = useCart();
-    const { wishlist, toggleWishlist, isInWishlist } = useWishlist();
+  const [search, setSearch] = useState("");
+  const [openMenu, setOpenMenu] = useState(false);
 
-    const totalItems = cart.reduce(
-     (acc, item) => acc + item.quantity, 0
-    );
+  const { addItem, cart } = useCart();
 
-    const filteredProducts =
-        search.trim().length > 0
-            ? products.filter((product) =>
-                product.name
-                    .toLowerCase()
-                    .startsWith(search.toLowerCase())
-            )
-            : [];
+  const {
+    wishlist,
+    toggleWishlist,
+    isInWishlist,
+  } = useWishlist();
 
+  const {
+    user,
+    signed,
+    signOut,
+  } = useContext(AuthContext);
 
-    return(
+  const totalItems = cart.reduce(
+    (acc, item) => acc + item.quantity,
+    0
+  );
 
-        <nav className="navbar">
+  const filteredProducts =
+    search.trim().length > 0
+      ? products.filter((product) =>
+          product.name
+            .toLowerCase()
+            .startsWith(search.toLowerCase())
+        )
+      : [];
 
-             <div className="logo-container" onClick={() => navigate("/")}>
-                <img src={logo} alt="logo" className="logo-img" />
-                <h2 className="logo">GamesBit</h2>
-            </div>
+  return (
+    <nav className="navbar">
 
-               <div className="search">
-                <input
-                    type="text"
-                    placeholder="Buscar jogos..."
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                />
-                {search && (
+      <div
+        className="logo-container"
+        onClick={() => navigate("/")}
+      >
+        <img
+          src={logo}
+          alt="logo"
+          className="logo-img"
+        />
 
-                    <div className="search-dropdown">
-                        {filteredProducts.length > 0 ? (
-                            filteredProducts.map((product) => (
-                                <div
-                                    key={product.id}
-                                    className="search-item"
-                                    onClick={() => {
-                                        navigate(`/product/${product.id}`);
-                                        setSearch("");
-                                    }}
-                                >
-                                    <img
-                                        src={product.image}
-                                        alt={product.name}
-                                    />
+        <h2 className="logo">
+          GamesBit
+        </h2>
+      </div>
 
-                                    <span>
-                                        {product.name}
-                                    </span>
+      <div className="search">
+        <input
+          type="text"
+          placeholder="Buscar jogos..."
+          value={search}
+          onChange={(e) =>
+            setSearch(e.target.value)
+          }
+        />
 
-                                </div>
+        {search && (
+          <div className="search-dropdown">
 
-                            ))
+            {filteredProducts.length > 0 ? (
 
-                        ) : (
-                            <p className="no-results">
-                                Nenhum jogo encontrado
-                            </p>
-
-                        )}
-
-                    </div>
-
-                )}
-
-            </div>
-
-
-            <div className="nav-actions">
-
+              filteredProducts.map((product) => (
                 <div
-                className="icon"
-                onClick={() => navigate("/wishlist")}
+                  key={product.id}
+                  className="search-item"
+                  onClick={() => {
+                    navigate(`/product/${product.id}`);
+                    setSearch("");
+                  }}
                 >
-                <FiHeart />
-                {wishlist.length > 0 && (
-                    <span className="badge">{wishlist.length}</span>
-                )}
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                  />
+
+                  <span>
+                    {product.name}
+                  </span>
+                </div>
+              ))
+
+            ) : (
+
+              <p className="no-results">
+                Nenhum jogo encontrado
+              </p>
+
+            )}
+
+          </div>
+        )}
+      </div>
+
+      <div className="nav-actions">
+
+        <div
+          className="icon"
+          onClick={() => navigate("/wishlist")}
+        >
+          <FiHeart />
+
+          {wishlist.length > 0 && (
+            <span className="badge">
+              {wishlist.length}
+            </span>
+          )}
+        </div>
+
+        <div
+          className="icon cart"
+          onClick={() => navigate("/cart")}
+        >
+          <FiShoppingCart />
+
+          {totalItems > 0 && (
+            <span className="badge">
+              {totalItems}
+            </span>
+          )}
+        </div>
+
+        {/* USER LOGADO */}
+        {signed ? (
+
+          <div className="profile-wrapper-menu">
+
+            <div
+              className="profile-avatar-menu"
+              onClick={() =>
+                setOpenMenu(!openMenu)
+              }
+            >
+              {user?.avatar ? (
+                <img src={user.avatar} alt={user?.name || "user"} />
+              ) : (
+                user?.name?.charAt(0)?.toUpperCase() || "U"
+              )}
+            </div>
+
+            {openMenu && (
+              <div className="profile-menu-">
+
+                <div className="profile-header-menu">
+                  <div className="profile-avatar-menu large">
+                    {user?.avatar ? (
+                      <img src={user.avatar} alt={user.name} />
+                    ) : (
+                      user?.name?.charAt(0)?.toUpperCase()
+                    )}
+
+                  </div>
+
+                  <div>
+                    <h4>{user?.name}</h4>
+                    <p>{user?.email}</p>
+                  </div>
                 </div>
 
-                <div
-                className="icon cart"
-                onClick={() => navigate("/cart")}
+                <button
+                  onClick={() => {
+                    navigate("/profile");
+                    setOpenMenu(false);
+                  }}
                 >
-                <FiShoppingCart />
+                  <FiUser />
+                  Meu Perfil
+                </button>
 
-                {totalItems > 0 && (
-                <span className="badge">{totalItems}</span>
+                <button
+                  onClick={() => {
+                    navigate("/orders");
+                    setOpenMenu(false);
+                  }}
+                >
+                  <FiPackage />
+                  Meus Pedidos
+                </button>
+
+                {/* ADMIN */}
+                {user?.role === "admin" && (
+                  <button
+                    onClick={() => {
+                      navigate("/admin");
+                      setOpenMenu(false);
+                    }}
+                  >
+                    <FiSettings />
+                    Dashboard
+                  </button>
                 )}
 
-                </div>
-
-                <button className="login" onClick={() => navigate("/login")}>
-                Login
+                <button
+                  className="logout-btn"
+                  onClick={() => {
+                    signOut();
+                    navigate("/login");
+                  }}
+                >
+                  <FiLogOut />
+                  Sair
                 </button>
 
-                <button className="register" onClick={() => navigate("/register")}>
-                Registrar-se
-                </button>
+              </div>
+            )}
 
-            </div>
-        </nav>
+          </div>
 
-    );
+        ) : (
 
+          <>
+            <button
+              className="login"
+              onClick={() => navigate("/login")}
+            >
+              Login
+            </button>
 
+            <button
+              className="register"
+              onClick={() => navigate("/register")}
+            >
+              Registrar-se
+            </button>
+          </>
 
- }
- 
- 
+        )}
+
+      </div>
+    </nav>
+  );
+};
+

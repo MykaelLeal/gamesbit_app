@@ -1,39 +1,78 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+
+import { AuthContext } from "./AuthContext";
 
 const OrdersContext = createContext();
 
-export const OrdersProvider = ({ children }) => {
+export const OrdersProvider = ({
+  children,
+}) => {
 
-  const [orders, setOrders] = useState(() => {
-    const storedOrders = localStorage.getItem("orders");
+  const { user } = useContext(AuthContext);
 
-    return storedOrders ? JSON.parse(storedOrders) : [];
-  });
+  const ordersKey = user
+    ? `@orders:${user.id}`
+    : "@orders:guest";
 
+  const [orders, setOrders] = useState([]);
+
+  // carregar pedidos do usuário
   useEffect(() => {
-    localStorage.setItem("orders", JSON.stringify(orders));
-  }, [orders]);
+    const storedOrders =
+      JSON.parse(
+        localStorage.getItem(ordersKey)
+      ) || [];
 
+    setOrders(storedOrders);
+  }, [ordersKey]);
+
+  // salvar automaticamente
+  useEffect(() => {
+    localStorage.setItem(
+      ordersKey,
+      JSON.stringify(orders)
+    );
+  }, [orders, ordersKey]);
+
+  // adicionar pedido
   const addOrder = (items, total) => {
 
     const newOrder = {
       id: Date.now(),
 
-      items: JSON.parse(JSON.stringify(items)),
+      items: JSON.parse(
+        JSON.stringify(items)
+      ),
 
       total,
 
-      date: new Date().toLocaleDateString("pt-BR"),
+      date: new Date().toLocaleDateString(
+        "pt-BR"
+      ),
     };
 
-    setOrders((prev) => [newOrder, ...prev]);
+    setOrders((prev) => [
+      newOrder,
+      ...prev,
+    ]);
   };
 
   return (
-    <OrdersContext.Provider value={{ orders, addOrder }}>
+    <OrdersContext.Provider
+      value={{
+        orders,
+        addOrder,
+      }}
+    >
       {children}
     </OrdersContext.Provider>
   );
 };
 
-export const useOrders = () => useContext(OrdersContext);
+export const useOrders = () =>
+  useContext(OrdersContext);
