@@ -43,7 +43,7 @@ export const Profile = () => {
     const updatedUser = {
       ...user,
       ...profile,
-      avatar: profile.avatar || user.avatar
+      avatar: profile.avatar ?? user.avatar
     };
 
     setUser(updatedUser);
@@ -56,17 +56,24 @@ export const Profile = () => {
     const users =
       JSON.parse(localStorage.getItem("@Auth:users")) || [];
 
-      const updatedUsers = users.map((u) =>
-        u.id === updatedUser.id ? updatedUser : u
-      );
+    const updatedUsers = users.map((u) =>
+      u.id === updatedUser.id ? updatedUser : u
+    );
 
+    localStorage.setItem(
+      "@Auth:users",
+      JSON.stringify(updatedUsers)
+    );
 
     setEditing(false);
   };
 
   const handleLogout = () => {
+    navigate("/", {
+      replace: true,
+    });
+
     signOut();
-    navigate("/login");
   };
 
   return (

@@ -152,7 +152,6 @@ export const NavBar = () => {
           )}
         </div>
 
-        {/* USER LOGADO */}
         {signed ? (
 
           <div className="profile-wrapper-menu">
@@ -209,7 +208,6 @@ export const NavBar = () => {
                   Meus Pedidos
                 </button>
 
-                {/* ADMIN */}
                 {user?.role === "admin" && (
                   <button
                     onClick={() => {
@@ -226,7 +224,7 @@ export const NavBar = () => {
                   className="logout-btn"
                   onClick={() => {
                     signOut();
-                    navigate("/login");
+                    navigate("/");
                   }}
                 >
                   <FiLogOut />

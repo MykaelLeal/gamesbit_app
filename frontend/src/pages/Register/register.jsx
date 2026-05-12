@@ -16,6 +16,8 @@ export const Register = () => {
 
   const [error, setError] = useState("");
 
+  const [role, setRole] = useState("user");
+
   if (signed) {
      if (user?.email === "admin@gamesbit.com")  {
       navigate("/admin");
@@ -47,10 +49,10 @@ export const Register = () => {
       name,
       email,
       password,
+      role: email === "admin@gamesbit.com" && password === "admin123"
+          ? "admin"
+          : "user",
 
-      role: email === "admin@gamesbit.com"
-        ? "admin"
-        : "user",
     };
 
     // adiciona usuário

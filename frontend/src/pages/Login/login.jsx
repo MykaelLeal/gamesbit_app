@@ -18,21 +18,23 @@ export const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const loggedUser = signIn({ email, password });
+    const success = signIn({ email, password });
 
-    if (!loggedUser) {
+    if (!success) {
       setError("Usuário não cadastrado ou senha inválida");
-      return;
-    }
-
-    setError("");
-
-    if (loggedUser.role === "admin") {
-      navigate("/admin");
-    } else {
-      navigate("/");
     }
   };
+
+    useEffect(() => {
+      if (user?.role === "admin") {
+        navigate("/admin");
+      }
+
+      if (user && user.role !== "admin") {
+        navigate("/");
+      }
+    }, [user]);
+
 
   return (
     <div className="container">

@@ -36,13 +36,20 @@ export const AuthProvider = ({ children }) => {
         user.password === password
     );
 
-    if (!foundUser) {
-      return null;
-    }
+    if (!foundUser) return null;
 
-    setUser(foundUser);
+    const loggedUser = {
+      ...foundUser,
+      role:
+        email === "admin@gamesbit.com" &&
+        password === "12345678"
+          ? "admin"
+          : foundUser.role || "user",
+    };
 
-    return foundUser;
+    setUser(loggedUser);
+
+    return loggedUser;
   };
 
   const register = ({ name, email, password }) => {

@@ -3,23 +3,54 @@ import {
   FiGrid,
   FiShoppingCart,
   FiUsers,
-  FiSettings,
   FiLogOut,
   FiEdit2,
   FiTrash2,
   FiPlus,
 } from "react-icons/fi";
 
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+
+import { AuthContext } from "../../context/AuthContext";
 
 import "./dashboard.css";
 
 export function Dashboard() {
-    const [activeSection, setActiveSection] = useState("products");
+  const navigate = useNavigate();
 
-    
+  const { signOut } = useContext(AuthContext);
+
+  const [activeSection, setActiveSection] =
+    useState("products");
+
+  const users =
+    JSON.parse(
+      localStorage.getItem("@Auth:users")
+    ) || [];
+
+  const allOrders = users.flatMap((user) => {
+    const userOrders =
+      JSON.parse(
+        localStorage.getItem(
+          `@orders:${user.id}`
+        )
+      ) || [];
+
+    return userOrders.map((order) => ({
+      ...order,
+      userName: user.name,
+    }));
+  });
+
+  const handleLogout = () => {
+    signOut();
+    navigate("/login");
+  };
+
   return (
     <div className="admin-page">
+
 
       <aside className="admin-sidebar">
 
@@ -31,41 +62,68 @@ export function Dashboard() {
         <nav className="admin-menu">
 
           <button
-            className={activeSection === "products" ? "active" : ""}
-            onClick={() => setActiveSection("products")}
-            >
+            className={
+              activeSection === "products"
+                ? "active"
+                : ""
+            }
+            onClick={() =>
+              setActiveSection("products")
+            }
+          >
             <FiBox />
             Produtos
-            </button>
+          </button>
 
-            <button
-            className={activeSection === "categories" ? "active" : ""}
-            onClick={() => setActiveSection("categories")}
-            >
+          <button
+            className={
+              activeSection === "categories"
+                ? "active"
+                : ""
+            }
+            onClick={() =>
+              setActiveSection("categories")
+            }
+          >
             <FiGrid />
             Categorias
-            </button>
+          </button>
 
-            <button
-            className={activeSection === "orders" ? "active" : ""}
-            onClick={() => setActiveSection("orders")}
-            >
+          <button
+            className={
+              activeSection === "orders"
+                ? "active"
+                : ""
+            }
+            onClick={() =>
+              setActiveSection("orders")
+            }
+          >
             <FiShoppingCart />
             Pedidos
-            </button>
+          </button>
 
-            <button
-            className={activeSection === "users" ? "active" : ""}
-            onClick={() => setActiveSection("users")}
-            >
+          <button
+            className={
+              activeSection === "users"
+                ? "active"
+                : ""
+            }
+            onClick={() =>
+              setActiveSection("users")
+            }
+          >
             <FiUsers />
             Usuários
-            </button>
+          </button>
 
-            <button className="logout-btn">
-                <FiLogOut />
-                Sair
-            </button>
+          <button
+            className="logout-btn"
+            onClick={handleLogout}
+          >
+            <FiLogOut />
+            Sair
+          </button>
 
         </nav>
 
@@ -76,184 +134,212 @@ export function Dashboard() {
         <div className="admin-header">
 
           <div>
+
             <span className="admin-tag">
               Painel Administrativo
             </span>
 
-            <h1>Gerenciamento da Plataforma</h1>
+            <h1>
+              Gerenciamento da Plataforma
+            </h1>
 
             <p>
-              Gerencie produtos, pedidos, usuários e categorias
-              da sua loja.
+              Gerencie produtos, pedidos,
+              usuários e categorias da sua
+              loja.
             </p>
+
           </div>
 
         </div>
 
-
         {activeSection === "products" && (
-        <section className="admin-card">
+          <section className="admin-card">
 
             <div className="card-top">
 
-            <h2>Produtos</h2>
+              <h2>Produtos</h2>
 
-            <button className="add-btn">
+              <button className="add-btn">
                 <FiPlus />
                 Novo Produto
-            </button>
+              </button>
 
             </div>
 
             <div className="crud-list">
 
-            <div className="crud-item">
+              <div className="crud-item">
 
                 <div>
-                <h3>Cyber Legends</h3>
-                <span>R$ 249,90</span>
+                  <h3>Cyber Legends</h3>
+                  <span>R$ 249,90</span>
                 </div>
 
                 <div className="crud-actions">
-                <button>
-                    <FiEdit2 />
-                </button>
 
-                <button>
+                  <button>
+                    <FiEdit2 />
+                  </button>
+
+                  <button>
                     <FiTrash2 />
-                </button>
+                  </button>
+
                 </div>
 
-            </div>
+              </div>
 
             </div>
 
-        </section>
+          </section>
         )}
 
-
-       {activeSection === "categories" && (
-        <section className="admin-card">
+        {activeSection === "categories" && (
+          <section className="admin-card">
 
             <div className="card-top">
 
-            <h2>Categorias</h2>
+              <h2>Categorias</h2>
 
-            <button className="add-btn">
+              <button className="add-btn">
                 <FiPlus />
                 Nova Categoria
-            </button>
+              </button>
 
             </div>
 
             <div className="crud-list">
 
-            <div className="crud-item">
+              <div className="crud-item">
 
                 <div>
-                <h3>Ação</h3>
+                  <h3>Ação</h3>
                 </div>
 
                 <div className="crud-actions">
-                <button>
-                    <FiEdit2 />
-                </button>
 
-                <button>
+                  <button>
+                    <FiEdit2 />
+                  </button>
+
+                  <button>
                     <FiTrash2 />
-                </button>
+                  </button>
+
                 </div>
 
-            </div>
+              </div>
 
             </div>
 
-        </section>
+          </section>
         )}
 
         {activeSection === "orders" && (
-        <section className="admin-card">
+          <section className="admin-card">
 
             <div className="card-top">
-            <h2>Pedidos</h2>
+              <h2>Pedidos</h2>
             </div>
 
             <div className="crud-list">
 
-            <div className="crud-item">
+              {allOrders.length > 0 ? (
+                allOrders.map((order) => (
+                  <div
+                    className="crud-item"
+                    key={order.id}
+                  >
 
-                <div>
-                <h3>Pedido #1024</h3>
+                    <div>
 
-                <span>Usuário: Mykael</span>
-                </div>
+                      <h3>
+                        Pedido #{order.id}
+                      </h3>
 
-                <div>
-                <strong style={{ color: "#8b5cf6" }}>
-                    R$ 249,90
-                </strong>
-                </div>
+                      <span>
+                        Usuário:{" "}
+                        {order.userName}
+                      </span>
+
+                    </div>
+
+                    <div>
+
+                      <strong
+                        style={{
+                          color: "#8b5cf6",
+                        }}
+                      >
+                        R$ {order.total}
+                      </strong>
+
+                    </div>
+
+                  </div>
+                ))
+              ) : (
+                <p>
+                  Nenhum pedido encontrado.
+                </p>
+              )}
 
             </div>
 
-            <div className="crud-item">
-
-                <div>
-                <h3>Pedido #1025</h3>
-
-                <span>Usuário: João</span>
-                </div>
-
-                <div>
-                <strong style={{ color: "#8b5cf6" }}>
-                    R$ 349,90
-                </strong>
-                </div>
-
-            </div>
-
-            </div>
-
-        </section>
+          </section>
         )}
 
         {activeSection === "users" && (
-        <section className="admin-card">
+          <section className="admin-card">
 
             <div className="card-top">
-            <h2>Usuários</h2>
+              <h2>Usuários</h2>
             </div>
 
             <div className="crud-list">
 
-            <div className="crud-item">
+              {users.length > 0 ? (
+                users.map((user) => (
+                  <div
+                    className="crud-item"
+                    key={user.id}
+                  >
 
-                <div>
-                <h3>Mykael</h3>
+                    <div>
 
-                <span>mykael@email.com</span>
-                </div>
+                      <h3>{user.name}</h3>
 
-                <div className="crud-actions">
+                      <span>
+                        {user.email}
+                      </span>
 
-                <button>
-                    <FiEdit2 />
-                </button>
+                    </div>
 
-                <button>
-                    <FiTrash2 />
-                </button>
+                    <div className="crud-actions">
 
-                </div>
+                      <button>
+                        <FiEdit2 />
+                      </button>
+
+                      <button>
+                        <FiTrash2 />
+                      </button>
+
+                    </div>
+
+                  </div>
+                ))
+              ) : (
+                <p>
+                  Nenhum usuário encontrado.
+                </p>
+              )}
 
             </div>
 
-            </div>
-
-        </section>
+          </section>
         )}
-
-
 
       </main>
 
