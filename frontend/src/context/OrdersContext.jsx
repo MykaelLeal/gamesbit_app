@@ -21,7 +21,6 @@ export const OrdersProvider = ({
 
   const [orders, setOrders] = useState([]);
 
-  // carregar pedidos do usuário
   useEffect(() => {
     const storedOrders =
       JSON.parse(
@@ -31,7 +30,6 @@ export const OrdersProvider = ({
     setOrders(storedOrders);
   }, [ordersKey]);
 
-  // salvar automaticamente
   useEffect(() => {
     localStorage.setItem(
       ordersKey,
@@ -39,7 +37,6 @@ export const OrdersProvider = ({
     );
   }, [orders, ordersKey]);
 
-  // adicionar pedido
   const addOrder = (items, total) => {
 
     const newOrder = {

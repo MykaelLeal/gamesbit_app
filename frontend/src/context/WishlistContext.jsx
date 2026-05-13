@@ -16,12 +16,10 @@ export function WishlistProvider({
 
   const [wishlist, setWishlist] = useState([]);
 
-  // chave dinâmica
   const wishlistKey = user
     ? `@wishlist:${user.id}`
     : "@wishlist:guest";
 
-  // carregar wishlist do usuário
   useEffect(() => {
     const storedWishlist =
       JSON.parse(
@@ -31,7 +29,6 @@ export function WishlistProvider({
     setWishlist(storedWishlist);
   }, [wishlistKey]);
 
-  // salvar automaticamente
   useEffect(() => {
     localStorage.setItem(
       wishlistKey,
@@ -39,7 +36,6 @@ export function WishlistProvider({
     );
   }, [wishlist, wishlistKey]);
 
-  // adicionar/remover
   const toggleWishlist = (product) => {
     const exists = wishlist.find(
       (item) => item.id === product.id
@@ -59,7 +55,6 @@ export function WishlistProvider({
     }
   };
 
-  // verificar
   const isInWishlist = (id) => {
     return wishlist.some(
       (item) => item.id === id

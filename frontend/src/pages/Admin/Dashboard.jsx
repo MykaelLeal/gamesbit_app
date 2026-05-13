@@ -25,9 +25,15 @@ export function Dashboard() {
     useState("products");
 
   const users =
-    JSON.parse(
-      localStorage.getItem("@Auth:users")
-    ) || [];
+    (
+      JSON.parse(
+        localStorage.getItem("@Auth:users")
+      ) || []
+    ).sort((a, b) =>
+      a.name.localeCompare(b.name, "pt-BR", {
+        sensitivity: "base",
+      })
+    );
 
   const allOrders = users.flatMap((user) => {
     const userOrders =

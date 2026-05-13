@@ -33,7 +33,7 @@ export const Checkout = () => {
       cep: "",
     });
 
-  // carregar perfil salvo
+  
   useEffect(() => {
     if (!user) return;
 
@@ -55,7 +55,7 @@ export const Checkout = () => {
     }
   }, [user]);
 
-  // validação
+ 
   const validateForm = () => {
     const newErrors = {};
 
@@ -99,7 +99,7 @@ export const Checkout = () => {
     );
   };
 
-  // finalizar pedido
+  
   const handleFinishOrder = () => {
     if (cart.length === 0) return;
 
@@ -107,13 +107,21 @@ export const Checkout = () => {
 
     if (!isValid) return;
 
-    // salvar perfil
+    if (user?.cpf !== profile.cpf) {
+
+      setErrors({
+        cpf: "O CPF informado não corresponde ao CPF da conta.",
+      });
+
+      return;
+    }
+
     localStorage.setItem(
       `@profile:${user.id}`,
       JSON.stringify(profile)
     );
 
-    // criar pedido
+    
     addOrder(cart, total, {
       customer: {
         name: profile.name,
@@ -128,10 +136,10 @@ export const Checkout = () => {
       status: "Processando",
     });
 
-    // limpar carrinho
+   
     clearCart();
 
-    // abrir modal
+    
     setShowSuccess(true);
   };
 
@@ -156,11 +164,9 @@ export const Checkout = () => {
 
         <div className="checkout-container">
 
-          {/* esquerda */}
 
           <div className="checkout-left">
 
-            {/* infos pessoais */}
 
             <div className="card">
 
@@ -169,8 +175,6 @@ export const Checkout = () => {
               </h2>
 
               <form className="checkout-form">
-
-                {/* nome */}
 
                 <div className="input-group">
 
@@ -200,8 +204,6 @@ export const Checkout = () => {
 
                 </div>
 
-                {/* email */}
-
                 <div className="input-group">
 
                   <label>
@@ -228,8 +230,6 @@ export const Checkout = () => {
                   )}
 
                 </div>
-
-                {/* cpf e telefone */}
 
                 <div className="row">
 
@@ -288,8 +288,6 @@ export const Checkout = () => {
 
                 </div>
 
-                {/* cep */}
-
                 <div className="input-group">
 
                   <label>
@@ -321,8 +319,6 @@ export const Checkout = () => {
 
             </div>
 
-            {/* envio */}
-
             <div className="card">
 
               <h2>
@@ -349,8 +345,6 @@ export const Checkout = () => {
 
             </div>
 
-            {/* pagamento */}
-
             <div className="card">
 
               <h2>
@@ -374,8 +368,6 @@ export const Checkout = () => {
             </div>
 
           </div>
-
-          {/* direita */}
 
           <div className="checkout-right">
 
@@ -432,8 +424,6 @@ export const Checkout = () => {
                 ))}
 
               </div>
-
-              {/* resumo */}
 
               <div className="summary">
 

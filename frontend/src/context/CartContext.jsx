@@ -14,12 +14,10 @@ export function CartProvider({ children }) {
 
   const [cart, setCart] = useState([]);
 
-  // chave dinâmica por usuário
   const cartKey = user
     ? `@cart:${user.id}`
     : "@cart:guest";
 
-  // carregar carrinho do usuário
   useEffect(() => {
     const storedCart =
       JSON.parse(localStorage.getItem(cartKey)) || [];
@@ -27,7 +25,6 @@ export function CartProvider({ children }) {
     setCart(storedCart);
   }, [cartKey]);
 
-  // salvar carrinho automaticamente
   useEffect(() => {
     localStorage.setItem(
       cartKey,
@@ -35,7 +32,6 @@ export function CartProvider({ children }) {
     );
   }, [cart, cartKey]);
 
-  // adicionar item
   const addItem = (product) => {
     const exists = cart.find(
       (item) => item.id === product.id
@@ -63,7 +59,6 @@ export function CartProvider({ children }) {
     }
   };
 
-  // aumentar quantidade
   const increaseQty = (id) => {
     setCart(
       cart.map((item) =>
@@ -77,7 +72,6 @@ export function CartProvider({ children }) {
     );
   };
 
-  // diminuir quantidade
   const decreaseQty = (id) => {
     setCart(
       cart.map((item) =>
@@ -92,19 +86,16 @@ export function CartProvider({ children }) {
     );
   };
 
-  // remover item
   const removeItem = (id) => {
     setCart(
       cart.filter((item) => item.id !== id)
     );
   };
 
-  // limpar carrinho
   const clearCart = () => {
     setCart([]);
   };
 
-  // total
   const total = cart.reduce(
     (acc, item) =>
       acc + item.price * item.quantity,

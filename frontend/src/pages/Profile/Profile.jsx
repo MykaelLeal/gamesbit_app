@@ -229,29 +229,31 @@ export const Profile = () => {
 
               <div className="info-box">
 
-                <span>CPF</span>
+              <span>CPF</span>
 
-                {editing ? (
+              {editing ? (
 
-                  <input
-                    value={profile.cpf}
-                    onChange={(e) =>
-                      setProfile({
-                        ...profile,
-                        cpf: e.target.value,
-                      })
-                    }
-                  />
+                <input
+                  value={profile.cpf}
+                  disabled={!!user?.cpf}
+                  placeholder="Digite seu CPF"
+                  onChange={(e) =>
+                    setProfile({
+                      ...profile,
+                      cpf: e.target.value,
+                    })
+                  }
+                />
 
-                ) : (
+              ) : (
 
-                  <strong>
-                    {profile.cpf || "Não informado"}
-                  </strong>
+                <strong>
+                  {profile.cpf || "Não informado"}
+                </strong>
 
-                )}
+              )}
 
-              </div>
+            </div>
 
               <div className="info-box">
 
