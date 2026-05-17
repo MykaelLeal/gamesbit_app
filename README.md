@@ -369,10 +369,11 @@ ou
 npm i
 ```
 
-
 ## 4️- Execute o projeto
 
 ```bash
+npm start
+```
 
 
 
