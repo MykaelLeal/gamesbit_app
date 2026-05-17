@@ -44,7 +44,7 @@ O sistema reconhece automaticamente um administrador quando realiza seu cadastro
 ```txt
 Nome: Admin
 Email: admin@gamesbit.com
-Senha: 12345678
+Senha: admin123
 ```
 
 # Carrinho de Compras
@@ -166,7 +166,7 @@ A interface possui:
 
 ## Responsividade
 
-O GamesBit é totalmente responsivo.
+O GamesBit é responsivo.
 
 A aplicação foi adaptada para diferentes tamanhos de tela, incluindo:
 
@@ -175,30 +175,9 @@ A aplicação foi adaptada para diferentes tamanhos de tela, incluindo:
 * tablets
 * smartphones
 
-Os elementos se reorganizam automaticamente para melhorar a navegação e acessibilidade em dispositivos menores.
-
-Isso inclui:
-
-* grids adaptáveis
-* menus responsivos
-* formulários ajustáveis
-* cards flexíveis
-* melhor aproveitamento de espaço em telas pequenas
-
-O projeto possui:
-
-* Layout moderno
-* Sidebar administrativa
-* Responsividade
-* Inputs animados
-* Cards interativos
-* Ícones com React Icons
-* Feedback visual de erros
-
-
 # Persistência de Dados
 
-Os dados são armazenados utilizando:
+Nessa fase do projeto onde não tem backend, os dados são armazenados utilizando:
 
 ```txt
 LocalStorage
