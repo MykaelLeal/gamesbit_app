@@ -1,4 +1,13 @@
-# 🎮 GamesBit
+# Nome do Projeto
+
+GamesBit
+
+# Integrantes do Grupo
+
+- Mykael da Silva Leal
+- Matheus Guimarães Silva
+
+# Descrição da Ideia do Sistema: 
 
 GamesBit é uma plataforma de e-commerce gamer desenvolvida em React, focada na venda e gerenciamento de jogos digitais e clássicos. 
 O projeto possui autenticação, rotas privadas, gerenciamento global de estado, painel administrativo, carrinho, lista de desejos, checkout e sistema de pedidos.
@@ -26,10 +35,11 @@ O sistema possui:
 * Persistência de login via LocalStorage
 * Diferenciação entre usuário comum e administrador
 * Visualização de senha nos formulários
+* Validação dos campos de cadastro e login
 
 ### Conta Admin
 
-O sistema reconhece automaticamente um administrador quando realiza seu cadastro com os segunites campos:
+O sistema reconhece automaticamente um administrador quando realiza seu cadastro com os seguintes campos:
 
 ```txt
 Nome: Admin
@@ -39,7 +49,7 @@ Senha: 12345678
 
 # Carrinho de Compras
 
-O usuário pode:
+O carrinho de compras permite:
 
 * Adicionar produtos ao carrinho
 * Remover produtos
@@ -52,7 +62,7 @@ O usuário pode:
 
 A plataforma possui sistema de wishlist.
 
-O usuário pode:
+A lista de desejos permite:
 
 * Adicionar produtos a lisa de desejos
 * Remover produtos da lista de desejos
@@ -81,8 +91,7 @@ A compra só é finalizada quando:
 Além disso:
 
 * após salvar o CPF no perfil, ele não pode mais ser alterado.
-
----
+  
 
 # Perfil do Usuário
 
@@ -204,6 +213,133 @@ O sistema salva:
 * perfil
 * wishlist
 
+# Explicação das Telas Desenvolvidas
+
+## Home
+
+Tela principal da plataforma responsável por apresentar os jogos disponíveis na loja.
+
+### Funcionalidades:
+
+- listagem de jogos
+- navegação pelos produtos
+- adição ao carrinho
+- adição à lista de desejos
+- visualização rápida dos produtos
+
+
+## Login
+
+Tela de autenticação dos usuários.
+
+### Funcionalidades:
+
+- login de usuários
+- validação de credenciais
+- visualização de senha
+- redirecionamento automático
+
+
+## Register
+
+Tela de cadastro de novos usuários.
+
+### Funcionalidades:
+
+- criação de conta
+- validação de email duplicado
+- visualização de senha
+- definição automática de permissões
+  
+
+## Profile (Perfil)
+
+Tela de gerenciamento da conta do usuário.
+
+### Funcionalidades:
+
+- edição de dados pessoais
+- alteração de avatar
+- visualização de informações da conta
+- gerenciamento de CPF
+- acesso rápido aos pedidos e lista de desejos
+
+  
+## Wishlist (Lista de desejos)
+
+Tela responsável pela lista de desejos do usuário.
+
+### Funcionalidades:
+
+- salvar produtos favoritos
+- remover itens da lista
+- visualizar jogos desejados
+
+  
+## Cart (Carrinho de Compras)
+
+Tela responsável pelos produtos adicionados ao carrinho.
+
+### Funcionalidades:
+
+- alteração de quantidade
+- remoção de produtos
+- cálculo automático do total
+- redirecionamento para checkout
+
+
+## Checkout
+
+Tela de finalização de compra.
+
+### Funcionalidades:
+
+- validação de formulário
+- validação de CPF
+- resumo do pedido
+- confirmação da compra
+- geração do pedido
+
+
+## Pedidos
+
+Tela onde o usuário visualiza suas compras realizadas.
+
+### Funcionalidades:
+
+- listagem de pedidos
+- visualização dos produtos comprados
+- valor total do pedido
+
+
+## Dashboard Admin
+
+Painel administrativo exclusivo para administradores.
+
+### Funcionalidades:
+
+- gerenciamento de produtos
+- gerenciamento de categorias
+- visualização de pedidos
+- listagem de usuários
+- controle administrativo da plataforma
+
+
+# Estrutura do Projeto
+
+```txt
+src/
+ ├── assets/
+ ├── components/
+ ├── context/
+ ├── data/
+ ├── pages/
+ ├── routes/
+ ├── styles/
+ ├── App.jsx
+ └── index.jsx
+```
+
 
 # Como Executar o Projeto
 
@@ -237,8 +373,7 @@ npm i
 ## 4️- Execute o projeto
 
 ```bash
-npm start
-```
+
 
 
 
