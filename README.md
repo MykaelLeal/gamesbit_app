@@ -210,7 +210,7 @@ O sistema salva:
 ## 1️- Clone o repositório
 
 ```bash
-git clone URL_DO_REPOSITORIO
+git clone https://github.com/MykaelLeal/gamesbit_app.git
 ```
 
 ---
