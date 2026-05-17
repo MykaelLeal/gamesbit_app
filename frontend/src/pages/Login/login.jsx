@@ -5,6 +5,8 @@ import { AuthContext } from "../../context/AuthContext";
 
 import { FiEye, FiEyeOff } from "react-icons/fi";
 
+import logo from "../../assets/logo.png";
+
 import "../../styles/auth.css";
 
 export const Login = () => {
@@ -59,6 +61,21 @@ export const Login = () => {
       <div className="left-side">
 
         <div className="left-content">
+
+          <div
+            className="logo-auth-container"
+            onClick={() => navigate("/")}
+          >
+            <img
+              src={logo}
+              alt="logo"
+              className="logo-img"
+            />
+
+            <h2 className="logo">
+              GamesBit
+            </h2>
+          </div>
 
           <h1>
             Bem-vindo ao GamesBit

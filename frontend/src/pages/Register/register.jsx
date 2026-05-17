@@ -7,6 +7,8 @@ import { FiEye, FiEyeOff } from "react-icons/fi";
 
 import "../../styles/auth.css";
 
+import logo from "../../assets/logo.png";
+
 export const Register = () => {
 
   const navigate = useNavigate();
@@ -95,6 +97,22 @@ export const Register = () => {
       <div className="left-side">
 
         <div className="left-content">
+
+           <div
+              className="logo-auth-container"
+              onClick={() => navigate("/")}
+            >
+              <img
+                src={logo}
+                alt="logo"
+                className="logo-img"
+              />
+
+              <h2 className="logo">
+                GamesBit
+              </h2>
+
+           </div>
 
           <h1>
             Crie sua conta

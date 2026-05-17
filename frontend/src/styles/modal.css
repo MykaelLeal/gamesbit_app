@@ -69,3 +69,64 @@
     transform: scale(1);
   }
 }
+
+
+@media (max-width: 768px) {
+
+  .modal {
+    width: 90%;
+    max-width: 400px;
+    padding: 22px;
+  }
+
+  .modal h3 {
+    font-size: 22px;
+  }
+
+  .modal-product p {
+    font-size: 14px;
+  }
+
+  .modal-actions button {
+    padding: 12px;
+    font-size: 14px;
+  }
+
+}
+
+@media (max-width: 480px) {
+
+  .modal-overlay {
+    padding: 15px;
+  }
+
+  .modal {
+    width: 100%;
+    padding: 18px;
+    border-radius: 12px;
+  }
+
+  .modal h3 {
+    font-size: 20px;
+  }
+
+  .modal-product img {
+    border-radius: 6px;
+  }
+
+  .modal-product p {
+    font-size: 13px;
+    line-height: 1.4;
+  }
+
+  .modal-actions {
+    flex-direction: column;
+  }
+
+  .modal-actions button {
+    width: 100%;
+    padding: 12px;
+    font-size: 14px;
+  }
+
+}

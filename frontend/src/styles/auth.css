@@ -30,6 +30,18 @@
   align-items: center; 
 }
 
+.logo-auth-container {
+  position: absolute;
+  top: 30px;
+  left: 30px;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  cursor: pointer;
+}
+
 .left-content h1 {
   font-size: 42px;
   margin-bottom: 20px;
@@ -218,6 +230,7 @@
   font-size: 14px;
   text-align: center;
   font-weight: 500;
+  margin-bottom: 14px;
 }
 
 .text-center {
@@ -289,4 +302,24 @@
   .left-content p {
     font-size: 16px;
   }
+
+  .login-form {
+    padding: 30px 20px;
+  }
+
+  .logo-auth-container {
+    top: 15px;
+    left: 15px;
+    gap: 8px;
+  }
+
+  .logo-img {
+    width: 40px;
+    height: 40px;
+  }
+
+  .logo {
+    font-size: 22px;
+  }
+
 }

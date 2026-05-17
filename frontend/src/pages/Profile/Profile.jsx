@@ -13,7 +13,7 @@ import {useContext, useEffect, useState} from "react";
 
 import { AuthContext } from "../../context/AuthContext";
 
-import "./profile.css";
+import "../../styles/profile.css";
 
 export const Profile = () => {
 
@@ -30,6 +30,14 @@ export const Profile = () => {
     phone: "",
     avatar: "",
   });
+
+  const formatCPF = (value) => {
+  return value
+    .replace(/\D/g, "")
+    .replace(/(\d{3})(\d)/, "$1.$2")
+    .replace(/(\d{3})(\d)/, "$1.$2")
+    .replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+};
 
   useEffect(() => {
     if (user) {
@@ -114,6 +122,15 @@ export const Profile = () => {
             >
               <FiHeart />
               Minha Lista de Desejos
+            </button>
+
+            <button
+              onClick={() =>
+                navigate("/")
+              }
+            >
+              <FiUser />
+              Voltar para Loja
             </button>
 
             <button
@@ -248,7 +265,9 @@ export const Profile = () => {
               ) : (
 
                 <strong>
-                  {profile.cpf || "Não informado"}
+                  {profile.cpf
+                    ? formatCPF(profile.cpf)
+                    : "Não informado"}
                 </strong>
 
               )}

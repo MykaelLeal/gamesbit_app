@@ -1,4 +1,4 @@
-import "./modal.css";
+import "../../styles/modal.css";
 
 export const Modal = ({
   show,

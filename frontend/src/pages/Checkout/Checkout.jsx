@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 
 import { SuccessModal } from "../../components/SucessModal/SucessModal";
 
-import "./checkout.css";
+import "../../styles/checkout.css";
 
 export const Checkout = () => {
   const navigate = useNavigate();
@@ -111,6 +111,24 @@ export const Checkout = () => {
 
       setErrors({
         cpf: "O CPF informado não corresponde ao CPF da conta.",
+      });
+
+      return;
+    }
+
+    if (user?.email !== profile.email) {
+
+      setErrors({
+        email: "O email informado não corresponde ao email da conta.",
+      });
+
+      return;
+    }
+
+    if (user?.name !== profile.name) {
+
+      setErrors({
+        name: "O nome informado não corresponde ao nome da conta.",
       });
 
       return;

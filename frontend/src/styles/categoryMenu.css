@@ -58,3 +58,66 @@
 .submenu li:hover {
   background: #7b2cbf;
 }
+
+
+@media (max-width: 768px) {
+
+  .category-menu {
+    padding: 10px 15px;
+    overflow-x: auto;
+    justify-content: flex-start;
+
+    scrollbar-width: none;
+  }
+
+  .category-menu::-webkit-scrollbar {
+    display: none;
+  }
+
+  .menu {
+    gap: 20px;
+    min-width: max-content;
+  }
+
+  .menu-item {
+    font-size: 14px;
+    white-space: nowrap;
+  }
+
+  .submenu {
+    top: 35px;
+    min-width: 140px;
+  }
+
+  .submenu li {
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+
+}
+
+@media (max-width: 480px) {
+
+  .category-menu {
+    padding: 8px 10px;
+  }
+
+  .menu {
+    gap: 15px;
+  }
+
+  .menu-item {
+    font-size: 13px;
+  }
+
+  .submenu {
+    min-width: 120px;
+    border-radius: 6px;
+  }
+
+  .submenu li {
+    font-size: 13px;
+    padding: 7px 10px;
+  }
+
+}

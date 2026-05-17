@@ -14,7 +14,7 @@ import { useNavigate } from "react-router-dom";
 
 import { AuthContext } from "../../context/AuthContext";
 
-import "./dashboard.css";
+import "../../styles/dashboard.css";
 
 export function Dashboard() {
   const navigate = useNavigate();

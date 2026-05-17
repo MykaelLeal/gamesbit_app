@@ -1,5 +1,6 @@
 import { ProductCard } from "../ProductCard/ProductCard";
-import "./productList.css";
+
+import "../../styles/productList.css";
 
 export const ProductList = ({
   products,

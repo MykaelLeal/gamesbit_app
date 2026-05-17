@@ -21,7 +21,7 @@ import {
 
 import { products } from "../../data/Products";
 
-import "./navBar.css";
+import "../../styles/navBar.css";
 
 import logo from "../../assets/logo.png";
 

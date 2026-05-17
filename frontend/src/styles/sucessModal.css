@@ -50,3 +50,56 @@
     opacity: 1;
   }
 }
+
+
+@media (max-width: 768px) {
+
+  .modal-sucess {
+    padding: 25px 20px;
+    max-width: 350px;
+  }
+
+  .modal-sucess h2 {
+    font-size: 24px;
+  }
+
+  .modal-sucess p {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .modal-sucess button {
+    width: 100%;
+    padding: 12px;
+    font-size: 14px;
+  }
+
+}
+
+@media (max-width: 480px) {
+
+  .modal-sucess-overlay {
+    padding: 15px;
+  }
+
+  .modal-sucess {
+    width: 100%;
+    padding: 22px 16px;
+    border-radius: 12px;
+  }
+
+  .modal-sucess h2 {
+    font-size: 20px;
+  }
+
+  .modal-sucess p {
+    font-size: 12px;
+  }
+
+  .modal-sucess button {
+    margin-top: 14px;
+    padding: 11px;
+    font-size: 13px;
+  }
+
+}

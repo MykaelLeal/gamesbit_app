@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { FiHeart } from "react-icons/fi";
 import { FaHeart } from "react-icons/fa";
 
-import "./productCard.css";
+import "../../styles/productCard.css";
 
 export const ProductCard = ({
   product,

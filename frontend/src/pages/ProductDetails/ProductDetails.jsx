@@ -12,7 +12,7 @@ import {NavBar} from "../../components/NavBar/NavBar.jsx";
 import { CategoryMenu } from "../../components/CategoryMenu/CategoryMenu";
 import { Footer} from "../../components/Footer/Footer.jsx";
 
-import "./productDetails.css";
+import "../../styles/productDetails.css";
 
 export const ProductDetails = () => {
   const navigate = useNavigate();

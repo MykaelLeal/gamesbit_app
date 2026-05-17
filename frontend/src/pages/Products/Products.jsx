@@ -9,7 +9,7 @@ import { Modal } from "../../components/Modal/Modal";
 import { NavBar } from "../../components/NavBar/NavBar";
 import { Footer } from "../../components/Footer/Footer";
 
-import "./products.css";
+import "../../styles/products.css";
 
 export const Products = () => {
   const navigate = useNavigate();

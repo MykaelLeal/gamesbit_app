@@ -7,7 +7,7 @@ import { NavBar } from "../../components/NavBar/NavBar";
 import { CategoryMenu } from "../../components/CategoryMenu/CategoryMenu";
 import { Footer } from "../../components/Footer/Footer";
 
-import "./myOrders.css";
+import "../../styles/myOrders.css";
 
 export const MyOrders = () => {
   const navigate = useNavigate();

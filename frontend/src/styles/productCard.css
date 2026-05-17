@@ -90,3 +90,82 @@
   transform: scale(1.03);
   opacity: 0.95;
 }
+
+
+@media (max-width: 768px) {
+
+  .card-img img {
+    height: 160px;
+  }
+
+  .card-info {
+    padding: 14px;
+  }
+
+  .card-info h3 {
+    font-size: 15px;
+  }
+
+  .old-price {
+    font-size: 14px;
+  }
+
+  .price {
+    font-size: 18px;
+  }
+
+  .card button {
+    padding: 9px;
+    font-size: 14px;
+  }
+
+  .wishlist-icon {
+    padding: 5px;
+  }
+
+}
+
+@media (max-width: 480px) {
+
+  .card {
+    border-radius: 12px;
+  }
+
+  .card-img img {
+    height: 140px;
+  }
+
+  .card-info {
+    padding: 12px;
+  }
+
+  .card-info h3 {
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  .price-container {
+    gap: 2px;
+  }
+
+  .old-price {
+    font-size: 13px;
+  }
+
+  .price {
+    font-size: 17px;
+  }
+
+  .card button {
+    padding: 10px;
+    font-size: 13px;
+    margin-top: 8px;
+  }
+
+  .wishlist-icon {
+    top: 8px;
+    right: 8px;
+    padding: 5px;
+  }
+
+}

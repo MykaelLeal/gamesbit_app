@@ -5,7 +5,7 @@ import {
   FiFacebook,
 } from "react-icons/fi";
 
-import "./footer.css";
+import "../../styles/footer.css";
 
 export const Footer = () => {
 

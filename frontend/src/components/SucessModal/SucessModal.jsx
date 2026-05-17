@@ -1,4 +1,4 @@
-import "./sucessModal.css";
+import "../../styles/sucessModal.css";
 
 export const SuccessModal = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
