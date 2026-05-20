@@ -42,7 +42,7 @@ export const AuthProvider = ({ children }) => {
       ...foundUser,
       role:
         email === "admin@gamesbit.com" &&
-        password === "12345678"
+        password === "admin123"
           ? "admin"
           : foundUser.role || "user",
     };
