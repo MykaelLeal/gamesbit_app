@@ -4,6 +4,8 @@ import User from "../models/User.js";
 
 dotenv.config();
 
+const SECRET_JWT = "3eef2f39a6b1ef0ca7ee05b1328c8334a45a834f";
+
 
 const authMiddleware = async (req, res, next) => {
   try {
@@ -33,7 +35,7 @@ const authMiddleware = async (req, res, next) => {
 
     const decoded = jwt.verify(
       token,
-      process.env.SECRET_JWT
+      SECRET_JWT
     );
 
     const user = await User.findById(decoded.id).select("-password");

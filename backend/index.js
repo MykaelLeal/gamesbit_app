@@ -27,7 +27,7 @@ app.use("/cart", cartRoute);
 app.use("/wishlist", wishlistRoute);
 app.use("/orders", orderRoute);
 
-const port = process.env.PORT || 3000;
+const port = 3001;
 
 app.listen(port, () => {
   console.log(`Servidor rodando na porta ${port}`);
