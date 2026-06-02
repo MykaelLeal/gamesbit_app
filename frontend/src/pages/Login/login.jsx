@@ -23,11 +23,10 @@ export const Login = () => {
 
   const [error, setError] = useState("");
 
-  const handleSubmit = (e) => {
-
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const success = signIn({
+    const success = await signIn({
       email,
       password,
     });
@@ -36,24 +35,22 @@ export const Login = () => {
       setError(
         "Usuário não cadastrado ou senha inválida"
       );
+      return;
     }
 
+    setError("");
   };
 
   useEffect(() => {
-
     if (user?.role === "admin") {
       navigate("/admin");
+      return;
     }
 
-    if (
-      user &&
-      user.role !== "admin"
-    ) {
+    if (user) {
       navigate("/");
     }
-
-  }, [user]);
+  }, [user, navigate]);
 
   return (
     <div className="container">

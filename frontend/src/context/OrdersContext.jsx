@@ -5,65 +5,89 @@ import {
   useState,
 } from "react";
 
-import { AuthContext } from "./AuthContext";
+import api from "../services/api";
 
 const OrdersContext = createContext();
 
-export const OrdersProvider = ({
-  children,
-}) => {
-
-  const { user } = useContext(AuthContext);
-
-  const ordersKey = user
-    ? `@orders:${user.id}`
-    : "@orders:guest";
+export const OrdersProvider = ({children}) => {
 
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
-    const storedOrders =
-      JSON.parse(
-        localStorage.getItem(ordersKey)
-      ) || [];
-
-    setOrders(storedOrders);
-  }, [ordersKey]);
-
-  useEffect(() => {
-    localStorage.setItem(
-      ordersKey,
-      JSON.stringify(orders)
+    const token = localStorage.getItem(
+      "@Auth:token"
     );
-  }, [orders, ordersKey]);
 
-  const addOrder = (items, total) => {
+    if (token) {
+      loadOrders();
+    }
+  }, []);
 
-    const newOrder = {
-      id: Date.now(),
+  const loadOrders = async () => {
+    try {
+      const response =
+        await api.get(
+          "/orders/my-orders"
+        );
 
-      items: JSON.parse(
-        JSON.stringify(items)
-      ),
-
-      total,
-
-      date: new Date().toLocaleDateString(
-        "pt-BR"
-      ),
-    };
-
-    setOrders((prev) => [
-      newOrder,
-      ...prev,
-    ]);
+      setOrders(response.data);
+    } catch (error) {
+      console.error(error);
+    }
   };
+
+  const addOrder = async (
+    shippingAddress
+  ) => {
+    try {
+      const response =
+        await api.post("/orders", {
+          shippingAddress,
+        });
+
+      setOrders((prev) => [
+        response.data.order,
+        ...prev,
+      ]);
+
+      return response.data.order;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  };
+
+  const getOrderById = async (
+    orderId
+  ) => {
+    try {
+      const response =
+        await api.get(
+          `/orders/${orderId}`
+        );
+
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  };
+
+  const token = localStorage.getItem(
+    "@Auth:token"
+  );
+
+  if (token) {
+    loadOrders();
+  }
 
   return (
     <OrdersContext.Provider
       value={{
         orders,
         addOrder,
+        getOrderById,
+        loadOrders,
       }}
     >
       {children}

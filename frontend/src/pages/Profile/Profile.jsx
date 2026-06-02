@@ -13,6 +13,8 @@ import {useContext, useEffect, useState} from "react";
 
 import { AuthContext } from "../../context/AuthContext";
 
+import api from "../../service/api";
+
 import "../../styles/profile.css";
 
 export const Profile = () => {
@@ -45,14 +47,20 @@ export const Profile = () => {
     }
   }, [user]);
 
-  const saveProfile = () => {
-    if (!profile) return;
+  const saveProfile = async () => {
 
-    const updatedUser = {
-      ...user,
-      ...profile,
-      avatar: profile.avatar ?? user.avatar
-    };
+    const response = await api.patch(
+      `/user/${user.id}`,
+      {
+        name: profile.name,
+        cpf: profile.cpf,
+        phone: profile.phone,
+        avatar: profile.avatar,
+      }
+    );
+
+    const updatedUser =
+      response.data.user;
 
     setUser(updatedUser);
 
@@ -61,20 +69,9 @@ export const Profile = () => {
       JSON.stringify(updatedUser)
     );
 
-    const users =
-      JSON.parse(localStorage.getItem("@Auth:users")) || [];
-
-    const updatedUsers = users.map((u) =>
-      u.id === updatedUser.id ? updatedUser : u
-    );
-
-    localStorage.setItem(
-      "@Auth:users",
-      JSON.stringify(updatedUsers)
-    );
-
     setEditing(false);
-  };
+
+};
 
   const handleLogout = () => {
     navigate("/", {

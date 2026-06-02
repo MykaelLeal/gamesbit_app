@@ -13,7 +13,7 @@ export const Register = () => {
 
   const navigate = useNavigate();
 
-  const { signed, user } = useContext(AuthContext);
+  const {signed, user, register} = useContext(AuthContext);
 
   const [email, setEmail] = useState("");
 
@@ -25,70 +25,35 @@ export const Register = () => {
 
   const [error, setError] = useState("");
 
-  if (signed) {
-
-    if (
-      user?.email ===
-      "admin@gamesbit.com"
-    ) {
-      navigate("/admin");
-    } else {
-      navigate("/");
+  useEffect(() => {
+    if (signed) {
+      if (user?.role === "admin") {
+        navigate("/admin");
+      } else {
+        navigate("/");
+      }
     }
+  }, [signed, user, navigate]);
 
-  }
-
-  const handleSubmit = (e) => {
-
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const users =
-      JSON.parse(
-        localStorage.getItem(
-          "@Auth:users"
-        )
-      ) || [];
-
-    const emailExists = users.find(
-      (user) =>
-        user.email === email
-    );
-
-    if (emailExists) {
-
-      setError(
-        "Usuário já cadastrado"
-      );
-
-      return;
-    }
-
-    const newUser = {
-
-      id: crypto.randomUUID(),
+    const success = await register({
       name,
       email,
       password,
-      role:
-        email ===
-          "admin@gamesbit.com" &&
-        password === "admin123"
-          ? "admin"
-          : "user",
+    });
 
-    };
-
-    users.push(newUser);
-
-    localStorage.setItem(
-      "@Auth:users",
-      JSON.stringify(users)
-    );
+    if (!success) {
+      setError(
+        "Erro ao cadastrar usuário"
+      );
+      return;
+    }
 
     setError("");
 
     navigate("/login");
-
   };
 
   return (

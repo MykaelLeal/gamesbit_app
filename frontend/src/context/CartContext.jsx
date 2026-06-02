@@ -5,113 +5,137 @@ import {
   useState,
 } from "react";
 
-import { AuthContext } from "./AuthContext";
+import api from "../services/api";
 
 const CartContext = createContext();
 
 export function CartProvider({ children }) {
-  const { user } = useContext(AuthContext);
-
   const [cart, setCart] = useState([]);
-
-  const cartKey = user
-    ? `@cart:${user.id}`
-    : "@cart:guest";
+  const [total, setTotal] = useState(0);
 
   useEffect(() => {
-    const storedCart =
-      JSON.parse(localStorage.getItem(cartKey)) || [];
-
-    setCart(storedCart);
-  }, [cartKey]);
-
-  useEffect(() => {
-    localStorage.setItem(
-      cartKey,
-      JSON.stringify(cart)
-    );
-  }, [cart, cartKey]);
-
-  const addItem = (product) => {
-    const exists = cart.find(
-      (item) => item.id === product.id
+    const token = localStorage.getItem(
+      "@Auth:token"
     );
 
-    if (exists) {
-      setCart(
-        cart.map((item) =>
-          item.id === product.id
-            ? {
-                ...item,
-                quantity: item.quantity + 1,
-              }
-            : item
-        )
-      );
-    } else {
-      setCart([
-        ...cart,
-        {
-          ...product,
-          quantity: 1,
-        },
-      ]);
+    if (token) {
+      loadCart();
+    }
+  }, []);
+
+  const loadCart = async () => {
+    try {
+      const response = await api.get("/cart");
+
+      setCart(response.data.items || []);
+      setTotal(response.data.total || 0);
+
+    } catch (error) {
+      console.error(error);
     }
   };
 
-  const increaseQty = (id) => {
-    setCart(
-      cart.map((item) =>
-        item.id === id
-          ? {
-              ...item,
-              quantity: item.quantity + 1,
-            }
-          : item
-      )
-    );
+  const addItem = async (product) => {
+    try {
+      await api.post("/cart/items", {
+        productId: product._id,
+        quantity: 1,
+      });
+
+      await loadCart();
+
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  const decreaseQty = (id) => {
-    setCart(
-      cart.map((item) =>
-        item.id === id &&
-        item.quantity > 1
-          ? {
-              ...item,
-              quantity: item.quantity - 1,
-            }
-          : item
-      )
-    );
+  const increaseQty = async (productId) => {
+    try {
+      const item = cart.find(
+        (item) =>
+          item.productId === productId
+      );
+
+      if (!item) return;
+
+      await api.put(
+        `/cart/items/${productId}`,
+        {
+          quantity: item.quantity + 1,
+        }
+      );
+
+      await loadCart();
+
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  const removeItem = (id) => {
-    setCart(
-      cart.filter((item) => item.id !== id)
-    );
+  const decreaseQty = async (productId) => {
+    try {
+      const item = cart.find(
+        (item) =>
+          item.productId === productId
+      );
+
+      if (!item) return;
+
+      if (item.quantity <= 1) {
+        await removeItem(productId);
+        return;
+      }
+
+      await api.put(
+        `/cart/items/${productId}`,
+        {
+          quantity: item.quantity - 1,
+        }
+      );
+
+      await loadCart();
+
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  const clearCart = () => {
-    setCart([]);
+  const removeItem = async (productId) => {
+    try {
+      await api.delete(
+        `/cart/items/${productId}`
+      );
+
+      await loadCart();
+
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  const total = cart.reduce(
-    (acc, item) =>
-      acc + item.price * item.quantity,
-    0
-  );
+  const clearCart = async () => {
+    try {
+      await api.delete("/cart/clear");
+
+      setCart([]);
+      setTotal(0);
+
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <CartContext.Provider
       value={{
         cart,
+        total,
         addItem,
         increaseQty,
         decreaseQty,
         removeItem,
         clearCart,
-        total,
+        loadCart,
       }}
     >
       {children}

@@ -11,7 +11,7 @@ const calculateTotal = (items) => {
 export const findCartByUserIdService = async (userId) => {
   return await Cart.findOne({ userId }).populate(
     "items.productId",
-    "name price image category"
+    "title price image category platform"
   );
 };
 

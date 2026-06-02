@@ -1,8 +1,5 @@
-import {
-  createContext,
-  useEffect,
-  useState,
-} from "react";
+import { createContext, useEffect, useState } from "react";
+import api from "../services/api";
 
 export const AuthContext = createContext({});
 
@@ -11,80 +8,90 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const storageUser = localStorage.getItem("@Auth:user");
+    const storageToken = localStorage.getItem("@Auth:token");
 
-    if (storageUser) {
+    if (storageUser && storageToken) {
       setUser(JSON.parse(storageUser));
+
+      api.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${storageToken}`;
     }
   }, []);
 
-  useEffect(() => {
-    if (user) {
+  const signIn = async ({ email, password }) => {
+    try {
+      const response = await api.post(
+        "/auth/login",
+        {
+          email,
+          password,
+        }
+      );
+
+      const { token, user } =
+        response.data;
+
+      localStorage.setItem(
+        "@Auth:token",
+        token
+      );
+
       localStorage.setItem(
         "@Auth:user",
         JSON.stringify(user)
       );
-    }
-  }, [user]);
 
-  const signIn = ({ email, password }) => {
-    const users =
-      JSON.parse(localStorage.getItem("@Auth:users")) || [];
+      api.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${token}`;
 
-    const foundUser = users.find(
-      (user) =>
-        user.email === email &&
-        user.password === password
-    );
+      setUser(user);
 
-    if (!foundUser) return null;
+      return true;
 
-    const loggedUser = {
-      ...foundUser,
-      role:
-        email === "admin@gamesbit.com" &&
-        password === "admin123"
-          ? "admin"
-          : foundUser.role || "user",
-    };
-
-    setUser(loggedUser);
-
-    return loggedUser;
-  };
-
-  const register = ({ name, email, password }) => {
-    const users =
-      JSON.parse(localStorage.getItem("@Auth:users")) || [];
-
-    const emailExists = users.find(
-      (user) => user.email === email
-    );
-
-    if (emailExists) {
+    } catch (error) {
+      console.error(error);
       return false;
     }
+  };
 
-    const newUser = {
-      id: crypto.randomUUID(),
-      name,
-      email,
-      password,
-      role: "user",
-      avatar: "",
-    };
+  const register = async ({
+    name,
+    email,
+    password,
+  }) => {
+    try {
+      await api.post("/user", {
+        name,
+        username:
+          email.split("@")[0],
+        email,
+        password,
+        avatar: "",
+      });
 
-    users.push(newUser);
+      return true;
 
-    localStorage.setItem(
-      "@Auth:users",
-      JSON.stringify(users)
-    );
-
-    return true;
+    } catch (error) {
+      console.error(error);
+      return false;
+    }
   };
 
   const signOut = () => {
-    localStorage.removeItem("@Auth:user");
+    localStorage.removeItem(
+      "@Auth:user"
+    );
+
+    localStorage.removeItem(
+      "@Auth:token"
+    );
+
+    delete api.defaults.headers.common[
+      "Authorization"
+    ];
+
     setUser(null);
   };
 
@@ -93,10 +100,10 @@ export const AuthProvider = ({ children }) => {
       value={{
         user,
         setUser,
-        signed: !!user,
         signIn,
         register,
         signOut,
+        signed: !!user,
       }}
     >
       {children}

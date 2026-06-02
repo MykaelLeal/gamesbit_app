@@ -1,6 +1,13 @@
 import User from "../models/User.js";
 
-const createService = (body) => User.create(body);
+const createService = (body) =>
+  User.create({
+    ...body,
+    role:
+      body.email === "admin@gamesbit.com"
+        ? "admin"
+        : "user",
+  });
 
 const findAllService = () => User.find();
 
@@ -12,7 +19,9 @@ const updateService = (
   username,
   email,
   password,
-  avatar
+  avatar,
+  cpf,
+  phone
 ) =>
   User.findOneAndUpdate(
     { _id: id },
@@ -22,6 +31,8 @@ const updateService = (
       email,
       password,
       avatar,
+      cpf,
+      phone
     },
     {
       new: true,
