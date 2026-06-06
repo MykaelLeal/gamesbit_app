@@ -5,7 +5,7 @@ import {
   useState,
 } from "react";
 
-import api from "../services/api";
+import api from "../service/api";
 
 const CartContext = createContext();
 
@@ -53,7 +53,7 @@ export function CartProvider({ children }) {
     try {
       const item = cart.find(
         (item) =>
-          item.productId === productId
+          item.productId._id === productId
       );
 
       if (!item) return;
@@ -76,7 +76,7 @@ export function CartProvider({ children }) {
     try {
       const item = cart.find(
         (item) =>
-          item.productId === productId
+          item.productId._id === productId
       );
 
       if (!item) return;

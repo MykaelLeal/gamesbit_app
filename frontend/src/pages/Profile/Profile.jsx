@@ -50,7 +50,7 @@ export const Profile = () => {
   const saveProfile = async () => {
 
     const response = await api.patch(
-      `/user/${user.id}`,
+      `/user/${user._id}`,
       {
         name: profile.name,
         cpf: profile.cpf,

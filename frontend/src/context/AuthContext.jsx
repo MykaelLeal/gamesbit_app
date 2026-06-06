@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from "react";
-import api from "../services/api";
+import api from "../service/api";
 
 export const AuthContext = createContext({});
 
@@ -62,7 +62,7 @@ export const AuthProvider = ({ children }) => {
     password,
   }) => {
     try {
-      await api.post("/user", {
+      await api.post("/user/", {
         name,
         username:
           email.split("@")[0],

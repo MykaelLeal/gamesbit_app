@@ -6,7 +6,7 @@ const createService = (body) =>
     role:
       body.email === "admin@gamesbit.com"
         ? "admin"
-        : "user",
+        : "client",
   });
 
 const findAllService = () => User.find();

@@ -4,9 +4,9 @@ const createUser = async (req, res) => {
 
     try {
     
-    const {name, username, email, password, avatar} = req.body;
+    const {name, email, password} = req.body;
 
-    if (!name || !username || !email || !password || !avatar) {
+    if (!name || !email || !password) {
        return res.status(400).send({message: "Submeta todos os campos para registrar!"})
     }
 
@@ -21,9 +21,7 @@ const createUser = async (req, res) => {
         user: {
             id: user._id,
             name,
-            username,
             email,
-            avatar,
         },
     });
 
@@ -67,44 +65,62 @@ const findUserById = async (req, res) => {
 
 
 const updateUser = async (req, res) => {
-
   try {
+    const {
+      name,
+      username,
+      email,
+      password,
+      avatar,
+      cpf,
+      phone,
+    } = req.body;
 
-    const {name, username, email, password, avatar} = req.body;
-
-    if (!name && !username && !email && !password && !avatar) {
-       return res.status(400).send({
-         message:
+    if (
+      !name &&
+      !username &&
+      !email &&
+      !password &&
+      !avatar &&
+      !cpf &&
+      !phone
+    ) {
+      return res.status(400).send({
+        message:
           "Submeta pelo menos um campo para realizar a atualização!",
       });
-
     }
 
     if (password) {
       const bcrypt = await import("bcrypt");
 
-      req.body.password = await bcrypt.default.hash(password, 10);
+      req.body.password =
+        await bcrypt.default.hash(password, 10);
     }
 
     const { id } = req;
 
-    const updatedUser = await userService.updateService(
-      id,
-      name,
-      username,
-      email,
-      req.body.password,
-      avatar
-    );
+    const updatedUser =
+      await userService.updateService(
+        id,
+        name,
+        username,
+        email,
+        req.body.password,
+        avatar,
+        cpf,
+        phone
+      );
 
-    res.send({
+    return res.send({
       message: "Usuário atualizado com sucesso!",
       user: updatedUser,
     });
 
   } catch (err) {
-    return res.status(500).send({message: err.message});
-    
+    return res.status(500).send({
+      message: err.message,
+    });
   }
 };
 

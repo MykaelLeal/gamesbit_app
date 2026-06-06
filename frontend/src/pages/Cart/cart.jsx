@@ -20,142 +20,230 @@ export const Cart = () => {
   } = useCart();
 
   const formatPrice = (value) => {
-    return new Intl.NumberFormat("pt-BR", {
-      style: "currency",
-      currency: "BRL",
-    }).format(value);
+    return new Intl.NumberFormat(
+      "pt-BR",
+      {
+        style: "currency",
+        currency: "BRL",
+      }
+    ).format(value);
   };
 
   return (
+    <div>
+      <NavBar />
+      <CategoryMenu />
 
-  <div>
+      <main>
+        <div className="cart-header">
+          <button
+            className="back-btn"
+            onClick={() => navigate("/")}
+          >
+            <FiArrowLeft />
+            Voltar
+          </button>
 
-    <NavBar />
-    <CategoryMenu />
+          <div className="page-title">
+            Meu Carrinho
+          </div>
+        </div>
 
-    <main>
+        <div className="content">
+          {cart.length === 0 ? (
+            <section className="empty-cart">
+              <p>
+                Seu carrinho está vazio
+              </p>
 
-      <div className="cart-header">
-        <button
-          className="back-btn"
-          onClick={() => navigate("/")}
-        >
-          <FiArrowLeft />
-          Voltar
-        </button>
+              <button
+                onClick={() =>
+                  navigate("/")
+                }
+              >
+                Ir às compras
+              </button>
+            </section>
+          ) : (
+            <>
+              <section>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Produto</th>
+                      <th>Preço</th>
+                      <th>Quantidade</th>
+                      <th>Total</th>
+                      <th>-</th>
+                    </tr>
+                  </thead>
 
-        <div className="page-title">Meu Carrinho</div>
-      </div>
+                  <tbody>
+                    {cart.map((item) => (
+                      <tr
+                        key={
+                          item.productId._id
+                        }
+                      >
+                        <td>
+                          <div className="product">
+                            <img
+                              src={
+                                item
+                                  .productId
+                                  .image
+                              }
+                              alt={
+                                item
+                                  .productId
+                                  .title
+                              }
+                            />
 
-      <div className="content">
+                            <div className="info">
+                              <div className="name">
+                                {
+                                  item
+                                    .productId
+                                    .title
+                                }
+                              </div>
 
-        {cart.length === 0 ? (
-          <section className="empty-cart">
-            <p>Seu carrinho está vazio</p>
-
-            <button onClick={() => navigate("/")}>
-              Ir às compras
-            </button>
-          </section>
-        ) : (
-          <>
-            <section>
-              <table>
-                <thead>
-                  <tr>
-                    <th>Produto</th>
-                    <th>Preço</th>
-                    <th>Quantidade</th>
-                    <th>Total</th>
-                    <th>-</th>
-                  </tr>
-                </thead>
-
-                <tbody>
-                  {cart.map((item) => (
-                    <tr key={item.id}>
-                      <td>
-                        <div className="product">
-                          <img src={item.image} alt={item.name} />
-                          <div className="info">
-                            <div className="name">{item.name}</div>
-                            <div className="category">
-                              {item.category}
+                              <div className="category">
+                                {
+                                  item
+                                    .productId
+                                    .category
+                                }
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      </td>
+                        </td>
 
-                      <td className="price-cell">{formatPrice(item.price)}</td>
+                        <td className="price-cell">
+                          {formatPrice(
+                            item.price
+                          )}
+                        </td>
 
-                      <td>
-                        <div className="qty">
-                          <button onClick={() => decreaseQty(item.id)}>
-                            -
+                        <td>
+                          <div className="qty">
+                            <button
+                              onClick={() =>
+                                decreaseQty(
+                                  item
+                                    .productId
+                                    ._id
+                                )
+                              }
+                            >
+                              -
+                            </button>
+
+                            <span>
+                              {
+                                item.quantity
+                              }
+                            </span>
+
+                            <button
+                              onClick={() =>
+                                increaseQty(
+                                  item
+                                    .productId
+                                    ._id
+                                )
+                              }
+                            >
+                              +
+                            </button>
+                          </div>
+                        </td>
+
+                        <td className="price-total">
+                          {formatPrice(
+                            item.price *
+                              item.quantity
+                          )}
+                        </td>
+
+                        <td>
+                          <button
+                            className="remove"
+                            onClick={() =>
+                              removeItem(
+                                item
+                                  .productId
+                                  ._id
+                              )
+                            }
+                          >
+                            <FiTrash2 />
                           </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </section>
 
-                          <span>{item.quantity}</span>
+              <aside>
+                <div className="box">
+                  <header>
+                    Resumo da compra
+                  </header>
 
-                          <button onClick={() => increaseQty(item.id)}>
-                            +
-                          </button>
-                        </div>
-                      </td>
+                  <div className="info">
+                    <div>
+                      <span>
+                        Sub-total
+                      </span>
 
-                      <td className="price-total">
-                        {formatPrice(item.price * item.quantity)}
-                      </td>
+                      <span>
+                        {formatPrice(
+                          total
+                        )}
+                      </span>
+                    </div>
 
-                      <td>
-                        <button
-                          className="remove"
-                          onClick={() => removeItem(item.id)}
-                        >
-                          <FiTrash2 />
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </section>
+                    <div>
+                      <span>
+                        Frete
+                      </span>
 
-            <aside>
-              <div className="box">
-                <header>Resumo da compra</header>
-
-                <div className="info">
-                  <div>
-                    <span>Sub-total</span>
-                    <span>{formatPrice(total)}</span>
+                      <span>
+                        Gratuito
+                      </span>
+                    </div>
                   </div>
 
-                  <div>
-                    <span>Frete</span>
-                    <span>Gratuito</span>
-                  </div>
+                  <footer>
+                    <span>Total</span>
+
+                    <span>
+                      {formatPrice(
+                        total
+                      )}
+                    </span>
+                  </footer>
                 </div>
 
-                <footer>
-                  <span>Total</span>
-                  <span>{formatPrice(total)}</span>
-                </footer>
-              </div>
+                <button
+                  onClick={() =>
+                    navigate(
+                      "/checkout"
+                    )
+                  }
+                >
+                  Finalizar compra
+                </button>
+              </aside>
+            </>
+          )}
+        </div>
+      </main>
 
-             <button onClick={() => navigate("/checkout")}>
-                 Finalizar compra
-            </button>
-            </aside>
-          </>
-        )}
-
-      </div>
-    </main>
-
-    <Footer />
-
-  </div>
-
-  
-);
+      <Footer />
+    </div>
+  );
 };

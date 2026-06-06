@@ -1,16 +1,16 @@
-import { useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { FiHeart, FiArrowLeft } from "react-icons/fi";
 import { FaHeart } from "react-icons/fa";
 
-import { products } from "../../data/Products.jsx";
+import api from "../../service/api";
 
 import { useCart } from "../../context/CartContext";
 import { useWishlist } from "../../context/WishlistContext";
 
-import {NavBar} from "../../components/NavBar/NavBar.jsx";
+import { NavBar } from "../../components/NavBar/NavBar";
 import { CategoryMenu } from "../../components/CategoryMenu/CategoryMenu";
-import { Footer} from "../../components/Footer/Footer.jsx";
+import { Footer } from "../../components/Footer/Footer";
 
 import "../../styles/productDetails.css";
 
@@ -19,114 +19,147 @@ export const ProductDetails = () => {
   const { id } = useParams();
 
   const { addItem } = useCart();
-  const { toggleWishlist, isInWishlist } = useWishlist();
+  const { toggleWishlist, isInWishlist } =
+    useWishlist();
 
-  const product = products.find((p) => p.id === Number(id));
+  const [product, setProduct] =
+    useState(null);
 
-  if (!product) return <p>Produto não encontrado</p>;
+  useEffect(() => {
+    loadProduct();
+  }, [id]);
 
-  const isLiked = isInWishlist(product.id);
+  const loadProduct = async () => {
+    try {
+      const response =
+        await api.get(`/products/${id}`);
 
-  
+      setProduct(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  if (!product) {
+    return (
+      <>
+        <NavBar />
+        <CategoryMenu />
+        <main>
+          <p>Carregando produto...</p>
+        </main>
+        <Footer />
+      </>
+    );
+  }
 
   return (
     <>
+      <NavBar />
+      <CategoryMenu />
 
-    <NavBar />
-    <CategoryMenu />
-
-    <main>
-    
-      <div className="details-header">
-        <button
-          className="back-btn"
-          onClick={() => navigate("/")}
-        >
-          <FiArrowLeft />
-          Voltar a Loja
-        </button>
-      </div>
-
-      <div className="details-container">
-
-        <div className="details-left">
-
-         <div className="image-card">
-
-          <div
-            className="wishlist-icon-details"
-            onClick={() => toggleWishlist(product)}
+      <main>
+        <div className="details-header">
+          <button
+            className="back-btn"
+            onClick={() => navigate("/")}
           >
-            {isInWishlist(product.id) ? (
-              <FaHeart color="red" />
-            ) : (
-              <FiHeart />
-            )}
-          </div>
+            <FiArrowLeft />
+            Voltar à Loja
+          </button>
+        </div>
 
-            <div className="image-content">
-
-              <div className="image-box">
-                <img src={product.image} alt={product.name} />
+        <div className="details-container">
+          <div className="details-left">
+            <div className="image-card">
+              <div
+                className="wishlist-icon-details"
+                onClick={() =>
+                  toggleWishlist(product)
+                }
+              >
+                {isInWishlist(
+                  product._id
+                ) ? (
+                  <FaHeart color="red" />
+                ) : (
+                  <FiHeart />
+                )}
               </div>
 
-              <div className="image-info">
-                <h1 className="title">{product.name}</h1>
-                <span className="category">{product.category}</span>
-              </div>
+              <div className="image-content">
+                <div className="image-box">
+                  <img
+                    src={product.image}
+                    alt={product.title}
+                  />
+                </div>
 
+                <div className="image-info">
+                  <h1 className="title">
+                    {product.title}
+                  </h1>
+
+                  <span className="category">
+                    {product.category}
+                  </span>
+                </div>
+              </div>
             </div>
 
+            <h3 className="description-title">
+              Descrição do Produto
+            </h3>
+
+            <p className="description">
+              {product.description ||
+                "Sem descrição disponível para este jogo."}
+            </p>
           </div>
 
-          <h3 className="description-title">
-             Descrição do Produto
-          </h3>
+          <div className="details-right">
+            <div className="price-box">
+              {product.oldPrice && (
+                <span className="old-price-details">
+                  {product.oldPrice.toLocaleString(
+                    "pt-BR",
+                    {
+                      style:
+                        "currency",
+                      currency:
+                        "BRL",
+                    }
+                  )}
+                </span>
+              )}
 
-          <p className="description">
-             {product.description || "Sem descrição disponível para este jogo."}
-          </p>
+              <span className="price-details">
+                {product.price.toLocaleString(
+                  "pt-BR",
+                  {
+                    style:
+                      "currency",
+                    currency:
+                      "BRL",
+                  }
+                )}
+              </span>
+            </div>
 
+            <button
+              className="buy-now-btn"
+              onClick={() => {
+                addItem(product);
+                navigate("/cart");
+              }}
+            >
+              Comprar agora
+            </button>
+          </div>
         </div>
-
-        <div className="details-right">
-
-         <div className="price-box">
-          {product.oldPrice && (
-            <span className="old-price-details">
-              {product.oldPrice.toLocaleString("pt-BR", {
-                style: "currency",
-                currency: "BRL",
-              })}
-            </span>
-          )}
-
-          <span className="price-details">
-            {product.price.toLocaleString("pt-BR", {
-              style: "currency",
-              currency: "BRL",
-            })}
-          </span>
-        </div>
-
-          <button
-            className="buy-now-btn"
-            onClick={() => {
-              addItem(product)
-              navigate("/cart");
-            }}
-          >
-            Comprar agora
-        </button>
-        </div>
-
-      </div>
-
-        
       </main>
 
       <Footer />
-
-      </>
-    );
-  };
+    </>
+  );
+};

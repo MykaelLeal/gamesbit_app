@@ -17,7 +17,7 @@ route.get("/", authMiddleware, adminMiddleware, userController.findAllUsers);
 
 route.get("/:id", authMiddleware, validId, validUser, userController.findUserById);
 
-route.patch("/:id", authMiddleware, ownerOrAdminMiddleware, validId, validUser, userController.updateUser);
+route.patch("/:id", authMiddleware, validId, validUser, ownerOrAdminMiddleware, userController.updateUser);
 
 route.delete("/:id", authMiddleware, validId, validUser, userController.deleteUserById);
 

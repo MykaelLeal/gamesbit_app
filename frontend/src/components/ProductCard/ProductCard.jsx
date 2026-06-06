@@ -13,57 +13,91 @@ export const ProductCard = ({
   const navigate = useNavigate();
 
   const goToDetails = () => {
-    navigate(`/product/${product.id}`);
+    navigate(`/product/${product._id}`);
   };
 
-  return (
-    <div className="card" onClick={goToDetails}>
+  const hasDiscount =
+    product.oldPrice &&
+    product.oldPrice > product.price;
 
+  const discountPercentage =
+    hasDiscount
+      ? Math.round(
+          ((product.oldPrice -
+            product.price) /
+            product.oldPrice) *
+            100
+        )
+      : 0;
+
+  return (
+    <div
+      className="card"
+      onClick={goToDetails}
+    >
       <div className="card-img">
-        <img src={product.image} alt={product.name} />
+        <img
+          src={product.image}
+          alt={product.title}
+        />
+
+        {hasDiscount && (
+          <span className="discount-badge">
+            {discountPercentage}% OFF
+          </span>
+        )}
 
         <div
           className="wishlist-icon"
           onClick={(e) => {
-            e.stopPropagation(); 
+            e.stopPropagation();
             onToggleWishlist(product);
           }}
         >
-          {isLiked ? <FaHeart color="red" /> : <FiHeart />}
+          {isLiked ? (
+            <FaHeart color="red" />
+          ) : (
+            <FiHeart />
+          )}
         </div>
       </div>
 
       <div className="card-info">
-        <h3>{product.name}</h3>
+        <h3>{product.title}</h3>
 
         <div className="price-container">
-          {product.oldPrice && (
+          {hasDiscount && (
             <span className="old-price">
-              {product.oldPrice.toLocaleString("pt-BR", {
-                style: "currency",
-                currency: "BRL",
-              })}
+              {product.oldPrice.toLocaleString(
+                "pt-BR",
+                {
+                  style: "currency",
+                  currency: "BRL",
+                }
+              )}
             </span>
           )}
 
           <span className="price">
-            {product.price.toLocaleString("pt-BR", {
-              style: "currency",
-              currency: "BRL",
-            })}
+            {product.price.toLocaleString(
+              "pt-BR",
+              {
+                style: "currency",
+                currency: "BRL",
+              }
+            )}
           </span>
         </div>
 
         <button
           onClick={(e) => {
-            e.stopPropagation(); 
+            e.stopPropagation();
             onAdd(product);
           }}
         >
           Adicionar ao carrinho
         </button>
       </div>
-
     </div>
   );
 };

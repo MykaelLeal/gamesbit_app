@@ -5,7 +5,7 @@ import {
   useState,
 } from "react";
 
-import api from "../services/api";
+import api from "../service/api";
 
 const WishlistContext = createContext();
 
@@ -34,7 +34,10 @@ export function WishlistProvider({
         response.data.products || []
       );
     } catch (error) {
-      console.error(error);
+      console.error(
+        "Erro ao carregar wishlist:",
+        error
+      );
     }
   };
 
@@ -58,29 +61,36 @@ export function WishlistProvider({
               item._id !== product._id
           )
         );
-      } else {
-        await api.post(
-          "/wishlist/products",
-          {
-            productId: product._id,
-          }
-        );
 
-        await loadWishlist();
+        return;
       }
+
+      await api.post(
+        "/wishlist/products",
+        {
+          productId: product._id,
+        }
+      );
+
+      setWishlist((prev) => [
+        product,
+        ...prev,
+      ]);
     } catch (error) {
-      console.error(error);
+      console.error(
+        "Erro ao atualizar wishlist:",
+        error
+      );
     }
   };
 
   const isInWishlist = (
     productId
-  ) => {
-    return wishlist.some(
+  ) =>
+    wishlist.some(
       (item) =>
         item._id === productId
     );
-  };
 
   const clearWishlist = async () => {
     try {
@@ -90,7 +100,10 @@ export function WishlistProvider({
 
       setWishlist([]);
     } catch (error) {
-      console.error(error);
+      console.error(
+        "Erro ao limpar wishlist:",
+        error
+      );
     }
   };
 

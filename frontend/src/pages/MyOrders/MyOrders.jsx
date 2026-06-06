@@ -14,6 +14,7 @@ export const MyOrders = () => {
 
   const { orders } = useOrders();
 
+
   return (
     <div>
       <NavBar />
@@ -29,61 +30,107 @@ export const MyOrders = () => {
             Voltar
           </button>
 
-          <h2 className="page-title">Meus Pedidos</h2>
+          <h2 className="page-title">
+            Meus Pedidos
+          </h2>
         </div>
 
-        {orders.length === 0 ? (
+        {!orders || orders.length === 0 ? (
           <div className="empty">
-            <h3>Você ainda não possui pedidos</h3>
+            <h3>
+              Você ainda não possui pedidos
+            </h3>
 
-            <p>Finalize uma compra para visualizar aqui</p>
+            <p>
+              Finalize uma compra para
+              visualizar aqui
+            </p>
 
-            <button onClick={() => navigate("/")}>
+            <button
+              onClick={() => navigate("/")}
+            >
               Ir para loja
             </button>
           </div>
         ) : (
           <div className="orders-container">
             {orders.map((order) => (
-              <div className="order-box" key={order.id}>
-
+              <div
+                className="order-box"
+                key={order._id}
+              >
                 <div className="order-top">
                   <div>
-                    <h3>Pedido #{order.id}</h3>
-                    <p>{order.date}</p>
+                    <h3>
+                      Pedido #
+                      {order.orderNumber}
+                    </h3>
+
+                    <p>
+                      {new Date(
+                        order.createdAt
+                      ).toLocaleDateString(
+                        "pt-BR"
+                      )}
+                    </p>
                   </div>
 
                   <span className="order-total">
-                    {order.total.toLocaleString("pt-BR", {
-                      style: "currency",
-                      currency: "BRL",
-                    })}
+                    {order.total.toLocaleString(
+                      "pt-BR",
+                      {
+                        style: "currency",
+                        currency: "BRL",
+                      }
+                    )}
                   </span>
                 </div>
 
                 <div className="order-products">
-                  {order.items.map((item) => (
-                    <div className="order-product" key={item.id}>
-                      <img src={item.image} alt={item.name} />
-
-                      <div className="order-info">
-                        <h4>{item.name}</h4>
-                        <p>Quantidade: {item.quantity}</p>
-                      </div>
-
-                      <span className="order-price">
-                        {(item.price * item.quantity).toLocaleString(
-                          "pt-BR",
-                          {
-                            style: "currency",
-                            currency: "BRL",
+                  {order.products?.map(
+                    (product, index) => (
+                      <div
+                        className="order-product"
+                        key={`${product.productId}-${index}`}
+                      >
+                        <img
+                          src={product.image}
+                          alt={
+                            product.title
                           }
-                        )}
-                      </span>
-                    </div>
-                  ))}
-                </div>
+                        />
 
+                        <div className="order-info">
+                          <h4>
+                            {product.title}
+                          </h4>
+
+                          <p>
+                            Quantidade:{" "}
+                            {
+                              product.quantity
+                            }
+                          </p>
+                        </div>
+
+                        <span className="order-price">
+                          {(
+                            product.price *
+                            product.quantity
+                          ).toLocaleString(
+                            "pt-BR",
+                            {
+                              style:
+                                "currency",
+                              currency:
+                                "BRL",
+                            }
+                          )}
+                        </span>
+                      </div>
+                    )
+                  )}
+                </div>
               </div>
             ))}
           </div>

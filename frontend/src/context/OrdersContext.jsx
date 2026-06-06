@@ -5,23 +5,15 @@ import {
   useState,
 } from "react";
 
-import api from "../services/api";
+import api from "../service/api";
 
 const OrdersContext = createContext();
 
-export const OrdersProvider = ({children}) => {
-
-  const [orders, setOrders] = useState([]);
-
-  useEffect(() => {
-    const token = localStorage.getItem(
-      "@Auth:token"
-    );
-
-    if (token) {
-      loadOrders();
-    }
-  }, []);
+export const OrdersProvider = ({
+  children,
+}) => {
+  const [orders, setOrders] =
+    useState([]);
 
   const loadOrders = async () => {
     try {
@@ -35,6 +27,17 @@ export const OrdersProvider = ({children}) => {
       console.error(error);
     }
   };
+
+  useEffect(() => {
+    const token =
+      localStorage.getItem(
+        "@Auth:token"
+      );
+
+    if (token) {
+      loadOrders();
+    }
+  }, []);
 
   const addOrder = async (
     shippingAddress
@@ -72,14 +75,6 @@ export const OrdersProvider = ({children}) => {
       return null;
     }
   };
-
-  const token = localStorage.getItem(
-    "@Auth:token"
-  );
-
-  if (token) {
-    loadOrders();
-  }
 
   return (
     <OrdersContext.Provider
