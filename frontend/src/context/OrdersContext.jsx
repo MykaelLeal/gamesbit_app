@@ -9,11 +9,8 @@ import api from "../service/api";
 
 const OrdersContext = createContext();
 
-export const OrdersProvider = ({
-  children,
-}) => {
-  const [orders, setOrders] =
-    useState([]);
+export const OrdersProvider = ({ children }) => {
+  const [orders, setOrders] = useState([]);
 
   const loadOrders = async () => {
     try {
@@ -21,6 +18,8 @@ export const OrdersProvider = ({
         await api.get(
           "/orders/my-orders"
         );
+
+         console.log("Pedidos:", response.data);
 
       setOrders(response.data);
     } catch (error) {
@@ -39,14 +38,10 @@ export const OrdersProvider = ({
     }
   }, []);
 
-  const addOrder = async (
-    shippingAddress
-  ) => {
+
+  const addOrder = async () => {
     try {
-      const response =
-        await api.post("/orders", {
-          shippingAddress,
-        });
+      const response = await api.post("/orders");
 
       setOrders((prev) => [
         response.data.order,
@@ -54,15 +49,15 @@ export const OrdersProvider = ({
       ]);
 
       return response.data.order;
+
     } catch (error) {
-      console.error(error);
+      console.error(error.response?.data);
       return null;
     }
   };
 
-  const getOrderById = async (
-    orderId
-  ) => {
+
+  const getOrderById = async ( orderId ) => {
     try {
       const response =
         await api.get(
@@ -75,6 +70,7 @@ export const OrdersProvider = ({
       return null;
     }
   };
+  
 
   return (
     <OrdersContext.Provider

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { NavBar } from "../../components/NavBar/NavBar";
@@ -9,10 +9,11 @@ import { Modal } from "../../components/Modal/Modal";
 import { useCart } from "../../context/CartContext";
 import { useWishlist } from "../../context/WishlistContext";
 
-import { products } from "../../data/Products";
 import { Footer } from "../../components/Footer/Footer";
 
 import { Banner } from "../../components/Banner/Banner";
+
+import api from "../../service/api";
 
 export const Home = () => {
 
@@ -27,6 +28,7 @@ export const Home = () => {
 
   const [showModal, setShowModal] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [products, setProducts] = useState([]);
 
   const handleAdd = (product) => {
     addItem(product);
@@ -34,12 +36,29 @@ export const Home = () => {
     setShowModal(true);
   };
 
+  useEffect(() => {
+    const loadProducts = async () => {
+      try {
+        const response =
+          await api.get("/product/");
+
+        setProducts(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    loadProducts();
+  }, []);
+
   
-  const filteredProducts = products.filter((product) =>
-    product.name
-      .toLowerCase()
-      .includes(search.toLowerCase())
-  );
+  const filteredProducts =
+    products.filter((product) =>
+      product.title
+        .toLowerCase()
+        .includes(search.toLowerCase())
+    );
+
 
   return (
     <div className="home">

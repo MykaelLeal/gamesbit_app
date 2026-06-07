@@ -14,12 +14,9 @@ import { useCart } from "../../context/CartContext";
 import { useWishlist } from "../../context/WishlistContext";
 import { AuthContext } from "../../context/AuthContext";
 
-import {
-  useState,
-  useContext,
-} from "react";
+import { useState, useContext, useEffect } from "react";
 
-import { products } from "../../data/Products";
+import api from "../../service/api";
 
 import "../../styles/navBar.css";
 
@@ -30,32 +27,37 @@ export const NavBar = () => {
 
   const [search, setSearch] = useState("");
   const [openMenu, setOpenMenu] = useState(false);
-
+  const [products, setProducts] = useState([]);
   const { addItem, cart } = useCart();
+  const { wishlist, toggleWishlist, isInWishlist} = useWishlist();
 
-  const {
-    wishlist,
-    toggleWishlist,
-    isInWishlist,
-  } = useWishlist();
-
-  const {
-    user,
-    signed,
-    signOut,
-  } = useContext(AuthContext);
+  const {user, signed, signOut } = useContext(AuthContext);
 
   const totalItems = cart.reduce(
     (acc, item) => acc + item.quantity,
     0
   );
 
+  useEffect(() => {
+    const loadProducts = async () => {
+      try {
+        const response = await api.get("/product/");
+
+        setProducts(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    loadProducts();
+  }, []);
+
   const filteredProducts =
     search.trim().length > 0
       ? products.filter((product) =>
-          product.name
+          product.title
             .toLowerCase()
-            .startsWith(search.toLowerCase())
+            .includes(search.toLowerCase())
         )
       : [];
 
@@ -94,20 +96,20 @@ export const NavBar = () => {
 
               filteredProducts.map((product) => (
                 <div
-                  key={product.id}
+                  key={product._id}
                   className="search-item"
                   onClick={() => {
-                    navigate(`/product/${product.id}`);
+                    navigate(`/product/${product._id}`);
                     setSearch("");
                   }}
                 >
                   <img
                     src={product.image}
-                    alt={product.name}
+                    alt={product.title}
                   />
 
                   <span>
-                    {product.name}
+                    {product.title}
                   </span>
                 </div>
               ))

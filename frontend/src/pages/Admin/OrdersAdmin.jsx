@@ -15,7 +15,7 @@ export function OrdersAdmin() {
   const loadOrders = async () => {
     try {
       const response =
-        await api.get("/orders");
+         await api.get("/orders/admin/all");
 
       setOrders(response.data);
     } catch (error) {
@@ -72,15 +72,6 @@ export function OrdersAdmin() {
                   )}
                 </strong>
 
-                <button
-                  onClick={() =>
-                    navigate(
-                      `/admin/orders/${order._id}`
-                    )
-                  }
-                >
-                  Ver detalhes
-                </button>
               </div>
             </div>
           ))

@@ -8,17 +8,14 @@ import {
 export const createOrder = async (req, res) => {
   try {
     const { id } = req.user;
-    const { shippingAddress } = req.body;
 
-    const order = await createOrderService(
-      id,
-      shippingAddress
-    );
+    const order = await createOrderService(id);
 
     return res.status(201).send({
       message: "Pedido criado com sucesso",
       order,
     });
+    
   } catch (err) {
     return res.status(500).send({
       message: err.message,

@@ -32,7 +32,7 @@ export const ProductDetails = () => {
   const loadProduct = async () => {
     try {
       const response =
-        await api.get(`/products/${id}`);
+        await api.get(`/product/${id}`);
 
       setProduct(response.data);
     } catch (error) {

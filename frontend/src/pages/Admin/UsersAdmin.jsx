@@ -1,10 +1,6 @@
-import {
-  useEffect,
-  useState,
-} from "react";
+import { useEffect, useState } from "react";
 
 import {
-  FiEdit2,
   FiTrash2,
   FiX,
 } from "react-icons/fi";
@@ -12,24 +8,13 @@ import {
 import api from "../../service/api";
 
 export function UsersAdmin() {
-  const [users, setUsers] =
-    useState([]);
+  const [users, setUsers] = useState([]);
 
-  const [editingId, setEditingId] =
-    useState(null);
-
-  const [showForm, setShowForm] =
+  const [showModal, setShowModal] =
     useState(false);
 
-  const [form, setForm] =
-    useState({
-      name: "",
-      email: "",
-      cpf: "",
-      phone: "",
-      avatar: "",
-      role: "client",
-    });
+  const [selectedUser, setSelectedUser] =
+    useState(null);
 
   useEffect(() => {
     loadUsers();
@@ -38,7 +23,7 @@ export function UsersAdmin() {
   const loadUsers = async () => {
     try {
       const response =
-        await api.get("/user");
+        await api.get("/user/");
 
       setUsers(response.data);
     } catch (error) {
@@ -46,67 +31,26 @@ export function UsersAdmin() {
     }
   };
 
-  const handleChange = (e) => {
-    setForm({
-      ...form,
-      [e.target.name]:
-        e.target.value,
-    });
+  const openDeleteModal = (user) => {
+    setSelectedUser(user);
+    setShowModal(true);
   };
 
-  const handleEdit = (
-    user
-  ) => {
-    setEditingId(user._id);
-
-    setForm({
-      name: user.name || "",
-      email: user.email || "",
-      cpf: user.cpf || "",
-      phone: user.phone || "",
-      avatar: user.avatar || "",
-      role: user.role || "client",
-    });
-
-    setShowForm(true);
-  };
-
-  const handleSubmit = async (
-    e
-  ) => {
-    e.preventDefault();
-
-    try {
-      await api.patch(
-        `/user/${editingId}`,
-        form
-      );
-
-      setShowForm(false);
-      setEditingId(null);
-
-      loadUsers();
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const deleteUser = async (
-    id
-  ) => {
-    const confirmDelete =
-      window.confirm(
-        "Deseja excluir este usuário?"
-      );
-
-    if (!confirmDelete) return;
-
+  const confirmDelete = async () => {
     try {
       await api.delete(
-        `/user/${id}`
+        `/user/${selectedUser._id}`
       );
 
-      loadUsers();
+      setUsers((prevUsers) =>
+        prevUsers.filter(
+          (user) =>
+            user._id !== selectedUser._id
+        )
+      );
+
+      setShowModal(false);
+      setSelectedUser(null);
     } catch (error) {
       console.error(error);
     }
@@ -114,99 +58,11 @@ export function UsersAdmin() {
 
   return (
     <section className="admin-card">
-
       <div className="card-top">
         <h2>Usuários</h2>
       </div>
 
-      {showForm && (
-        <form
-          className="admin-form"
-          onSubmit={handleSubmit}
-        >
-          <div className="form-header">
-
-            <h3>
-              Editar Usuário
-            </h3>
-
-            <button
-              type="button"
-              onClick={() => {
-                setShowForm(false);
-                setEditingId(null);
-              }}
-            >
-              <FiX />
-            </button>
-
-          </div>
-
-          <input
-            type="text"
-            name="name"
-            placeholder="Nome"
-            value={form.name}
-            onChange={handleChange}
-          />
-
-          <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            value={form.email}
-            onChange={handleChange}
-          />
-
-          <input
-            type="text"
-            name="cpf"
-            placeholder="CPF"
-            value={form.cpf}
-            onChange={handleChange}
-          />
-
-          <input
-            type="text"
-            name="phone"
-            placeholder="Telefone"
-            value={form.phone}
-            onChange={handleChange}
-          />
-
-          <input
-            type="text"
-            name="avatar"
-            placeholder="Avatar URL"
-            value={form.avatar}
-            onChange={handleChange}
-          />
-
-          <select
-            name="role"
-            value={form.role}
-            onChange={handleChange}
-          >
-            <option value="client">
-              Cliente
-            </option>
-
-            <option value="admin">
-              Administrador
-            </option>
-          </select>
-
-          <button
-            type="submit"
-          >
-            Atualizar Usuário
-          </button>
-
-        </form>
-      )}
-
       <div className="crud-list">
-
         {users.map((user) => (
           <div
             className="crud-item"
@@ -221,31 +77,67 @@ export function UsersAdmin() {
             </div>
 
             <div className="crud-actions">
-
               <button
                 onClick={() =>
-                  handleEdit(user)
+                  openDeleteModal(user)
                 }
-              >
-                <FiEdit2 />
-              </button>
-
-              <button
-                onClick={() =>
-                  deleteUser(
-                    user._id
-                  )
-                }
+                title="Excluir usuário"
               >
                 <FiTrash2 />
               </button>
-
             </div>
           </div>
         ))}
-
       </div>
 
+      {showModal && (
+        <div className="admin-modal-overlay">
+          <div className="admin-modal">
+            <div className="admin-modal-header">
+              <h3>
+                Excluir Usuário
+              </h3>
+
+              <button
+                onClick={() => {
+                  setShowModal(false);
+                  setSelectedUser(null);
+                }}
+              >
+                <FiX />
+              </button>
+            </div>
+
+            <p>
+              Deseja realmente excluir o
+              usuário{" "}
+              <strong>
+                {selectedUser?.name}
+              </strong>
+              ?
+            </p>
+
+            <div className="admin-modal-actions">
+              <button
+                type="button"
+                onClick={() => {
+                  setShowModal(false);
+                  setSelectedUser(null);
+                }}
+              >
+                Cancelar
+              </button>
+
+              <button
+                type="button"
+                onClick={confirmDelete}
+              >
+                Excluir
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

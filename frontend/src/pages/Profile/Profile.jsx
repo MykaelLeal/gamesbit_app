@@ -33,19 +33,14 @@ export const Profile = () => {
     avatar: "",
   });
 
-  const formatCPF = (value) => {
-  return value
-    .replace(/\D/g, "")
-    .replace(/(\d{3})(\d)/, "$1.$2")
-    .replace(/(\d{3})(\d)/, "$1.$2")
-    .replace(/(\d{3})(\d{1,2})$/, "$1-$2");
-};
+ useEffect(() => {
+  console.log(user);
 
-  useEffect(() => {
-    if (user) {
-      setProfile(user);
-    }
-  }, [user]);
+  if (user) {
+    setProfile(user);
+  }
+}, [user]);
+
 
   const saveProfile = async () => {
 
@@ -59,8 +54,7 @@ export const Profile = () => {
       }
     );
 
-    const updatedUser =
-      response.data.user;
+    const updatedUser = response.data.user;
 
     setUser(updatedUser);
 
@@ -70,6 +64,8 @@ export const Profile = () => {
     );
 
     setEditing(false);
+    console.log(response.data.user)
+
 
 };
 
@@ -243,33 +239,13 @@ export const Profile = () => {
 
               <div className="info-box">
 
-              <span>CPF</span>
-
-              {editing ? (
-
-                <input
-                  value={profile.cpf}
-                  disabled={!!user?.cpf}
-                  placeholder="Digite seu CPF"
-                  onChange={(e) =>
-                    setProfile({
-                      ...profile,
-                      cpf: e.target.value,
-                    })
-                  }
-                />
-
-              ) : (
+                <span>CPF</span>
 
                 <strong>
-                  {profile.cpf
-                    ? formatCPF(profile.cpf)
-                    : "Não informado"}
+                  {profile.cpf}
                 </strong>
 
-              )}
-
-            </div>
+              </div>
 
               <div className="info-box">
 

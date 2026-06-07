@@ -50,38 +50,6 @@ const OrderSchema = new mongoose.Schema(
     },
 
 
-    shippingAddress: {
-      street: {
-        type: String,
-        required: true,
-      },
-
-      number: {
-        type: String,
-        required: true,
-      },
-
-      district: {
-        type: String,
-        required: true,
-      },
-
-      city: {
-        type: String,
-        required: true,
-      },
-
-      state: {
-        type: String,
-        required: true,
-      },
-
-      zipCode: {
-        type: String,
-        required: true,
-      },
-    },
-
   },
   {
     timestamps: true,

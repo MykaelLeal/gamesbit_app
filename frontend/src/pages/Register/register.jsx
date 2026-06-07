@@ -15,11 +15,14 @@ export const Register = () => {
 
   const {signed, user, register} = useContext(AuthContext);
 
+  const [name, setName] = useState("");
+
+  const [cpf, setCpf] = useState("");
+
   const [email, setEmail] = useState("");
 
   const [password, setPassword] = useState("");
 
-  const [name, setName] = useState("");
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -40,6 +43,7 @@ export const Register = () => {
 
     const success = await register({
       name,
+      cpf,
       email,
       password,
     });
@@ -124,6 +128,31 @@ export const Register = () => {
             <span
               className="focus-input"
               data-placeholder="Nome"
+            ></span>
+
+          </div>
+
+           <div className="wrap-input">
+
+            <input
+              className={
+                cpf
+                  ? "has-val input"
+                  : "input"
+              }
+              type="text"
+              value={cpf}
+              onChange={(e) =>
+                setCpf(
+                  e.target.value
+                )
+              }
+              required
+            />
+
+            <span
+              className="focus-input"
+              data-placeholder="CPF"
             ></span>
 
           </div>

@@ -1,10 +1,7 @@
 import Order from "../models/Order.js";
 import Cart from "../models/Cart.js";
 
-export const createOrderService = async (
-  userId,
-  shippingAddress
-) => {
+export const createOrderService = async (userId) => {
   const cart = await Cart.findOne({ userId }).populate(
     "items.productId"
   );
@@ -28,7 +25,6 @@ export const createOrderService = async (
     userId,
     products,
     total: cart.total,
-    shippingAddress,
   });
 
   cart.items = [];

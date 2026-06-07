@@ -29,8 +29,7 @@ export const AuthProvider = ({ children }) => {
         }
       );
 
-      const { token, user } =
-        response.data;
+      const { token, user } = response.data;
 
       localStorage.setItem(
         "@Auth:token",
@@ -58,12 +57,14 @@ export const AuthProvider = ({ children }) => {
 
   const register = async ({
     name,
+    cpf,
     email,
     password,
   }) => {
     try {
       await api.post("/user/", {
         name,
+        cpf,
         username:
           email.split("@")[0],
         email,
@@ -75,6 +76,7 @@ export const AuthProvider = ({ children }) => {
 
     } catch (error) {
       console.error(error);
+
       return false;
     }
   };

@@ -34,7 +34,8 @@ const UserSchema = new mongoose.Schema({
   cpf: {
     type: String,
     unique: true,
-    required: false,
+    required: true
+
   },
 
   phone: {

@@ -37,22 +37,19 @@ export const Checkout = () => {
   useEffect(() => {
     if (!user) return;
 
-    const storedProfile =
-      JSON.parse(
-        localStorage.getItem(
-          `@profile:${user.id}`
-        )
-      );
+    const storedProfile = JSON.parse(
+      localStorage.getItem(
+        `@profile:${user.id}`
+      )
+    );
 
-    if (storedProfile) {
-      setProfile({
-        name: storedProfile.name || "",
-        email: storedProfile.email || "",
-        cpf: storedProfile.cpf || "",
-        phone: storedProfile.phone || "",
-        cep: storedProfile.cep || "",
-      });
-    }
+    setProfile({
+      name: storedProfile?.name || user.name || "",
+      email: storedProfile?.email || user.email || "",
+      cpf: storedProfile?.cpf || user.cpf || "",
+      phone: storedProfile?.phone || user.phone || "",
+      cep: storedProfile?.cep || "",
+    });
   }, [user]);
 
  
@@ -99,68 +96,30 @@ export const Checkout = () => {
     );
   };
 
-  
-  const handleFinishOrder = () => {
+  const handleFinishOrder = async () => {
     if (cart.length === 0) return;
 
     const isValid = validateForm();
-
     if (!isValid) return;
 
-    if (user?.cpf !== profile.cpf) {
+    try {
+      localStorage.setItem(
+        `@profile:${user.id}`,
+        JSON.stringify(profile)
+      );
 
-      setErrors({
-        cpf: "O CPF informado não corresponde ao CPF da conta.",
-      });
+      const order = await addOrder();
 
-      return;
+      if (!order) return;
+
+      clearCart();
+      setShowSuccess(true);
+
+    } catch (error) {
+      console.error(error);
     }
-
-    if (user?.email !== profile.email) {
-
-      setErrors({
-        email: "O email informado não corresponde ao email da conta.",
-      });
-
-      return;
-    }
-
-    if (user?.name !== profile.name) {
-
-      setErrors({
-        name: "O nome informado não corresponde ao nome da conta.",
-      });
-
-      return;
-    }
-
-    localStorage.setItem(
-      `@profile:${user.id}`,
-      JSON.stringify(profile)
-    );
-
-    
-    addOrder(cart, total, {
-      customer: {
-        name: profile.name,
-        email: profile.email,
-        cpf: profile.cpf,
-        phone: profile.phone,
-        cep: profile.cep,
-      },
-
-      paymentMethod: "PIX",
-
-      status: "Processando",
-    });
-
-   
-    clearCart();
-
-    
-    setShowSuccess(true);
   };
-
+  
   return (
     <main>
 

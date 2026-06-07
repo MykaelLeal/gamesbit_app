@@ -4,9 +4,9 @@ const createUser = async (req, res) => {
 
     try {
     
-    const {name, email, password} = req.body;
+    const {name, email, cpf, password} = req.body;
 
-    if (!name || !email || !password) {
+    if (!name || !cpf || !email || !password) {
        return res.status(400).send({message: "Submeta todos os campos para registrar!"})
     }
 
@@ -21,6 +21,7 @@ const createUser = async (req, res) => {
         user: {
             id: user._id,
             name,
+            cpf,
             email,
         },
     });
