@@ -69,6 +69,16 @@ export const Profile = () => {
 
 };
 
+const formatCpf = (cpf) => {
+  if (!cpf) return "";
+
+  return cpf
+    .replace(/\D/g, "")
+    .replace(/(\d{3})(\d)/, "$1.$2")
+    .replace(/(\d{3})(\d)/, "$1.$2")
+    .replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+};
+
   const handleLogout = () => {
     navigate("/", {
       replace: true,
@@ -241,8 +251,8 @@ export const Profile = () => {
 
                 <span>CPF</span>
 
-                <strong>
-                  {profile.cpf}
+                 <strong>
+                  {formatCpf(profile.cpf)}
                 </strong>
 
               </div>

@@ -37,25 +37,6 @@ export const getMyOrders = async (req, res) => {
   }
 };
 
-export const getOrderById = async (req, res) => {
-  try {
-    const { orderId } = req.params;
-
-    const order = await findOrderByIdService(orderId);
-
-    if (!order) {
-      return res.status(404).send({
-        message: "Pedido não encontrado",
-      });
-    }
-
-    return res.status(200).send(order);
-  } catch (err) {
-    return res.status(500).send({
-      message: err.message,
-    });
-  }
-};
 
 export const getAllOrders = async (req, res) => {
   try {

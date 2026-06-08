@@ -30,6 +30,8 @@ export const ProductCard = ({
         )
       : 0;
 
+  const inStock = product.stock > 0;
+
   return (
     <div
       className="card"
@@ -44,6 +46,12 @@ export const ProductCard = ({
         {hasDiscount && (
           <span className="discount-badge">
             {discountPercentage}% OFF
+          </span>
+        )}
+
+        {!inStock && (
+          <span className="stock-badge">
+            ESGOTADO
           </span>
         )}
 
@@ -89,14 +97,26 @@ export const ProductCard = ({
           </span>
         </div>
 
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            onAdd(product);
-          }}
-        >
-          Adicionar ao carrinho
-        </button>
+        {!inStock && (
+          <span className="out-stock">
+            Produto indisponível
+          </span>
+        )}
+
+        {inStock ? (
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              onAdd(product);
+            }}
+          >
+            Adicionar ao carrinho
+          </button>
+        ) : (
+          <button disabled>
+            Indisponível
+          </button>
+        )}
       </div>
     </div>
   );

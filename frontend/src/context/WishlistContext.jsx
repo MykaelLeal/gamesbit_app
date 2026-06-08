@@ -7,23 +7,14 @@ import {
 
 import api from "../service/api";
 
+import { AuthContext } from "./AuthContext";
+
 const WishlistContext = createContext();
 
-export function WishlistProvider({
-  children,
-}) {
-  const [wishlist, setWishlist] =
-    useState([]);
+export function WishlistProvider({ children }) {
+  const [wishlist, setWishlist] = useState([]);
+  const { user } = useContext(AuthContext);
 
-  useEffect(() => {
-    const token = localStorage.getItem(
-      "@Auth:token"
-    );
-
-    if (token) {
-      loadWishlist();
-    }
-  }, []);
 
   const loadWishlist = async () => {
     try {
@@ -41,9 +32,15 @@ export function WishlistProvider({
     }
   };
 
-  const toggleWishlist = async (
-    product
-  ) => {
+  useEffect(() => {
+    if (user) {
+      loadWishlist();
+    } else {
+      setWishlist([]);
+    }
+  }, [user]);
+
+  const toggleWishlist = async ( product ) => {
     try {
       const exists = wishlist.some(
         (item) =>
@@ -84,9 +81,7 @@ export function WishlistProvider({
     }
   };
 
-  const isInWishlist = (
-    productId
-  ) =>
+  const isInWishlist = ( productId ) =>
     wishlist.some(
       (item) =>
         item._id === productId

@@ -10,6 +10,28 @@ export const createOrderService = async (userId) => {
     throw new Error("Carrinho vazio");
   }
 
+  for (const item of cart.items) {
+    const product = item.productId;
+
+    if (!product) {
+      throw new Error("Produto não encontrado");
+    }
+
+    if (product.stock < item.quantity) {
+      throw new Error(
+        `Estoque insuficiente para ${product.title}`
+      );
+    }
+  }
+
+  for (const item of cart.items) {
+    const product = item.productId;
+
+    product.stock -= item.quantity;
+
+    await product.save();
+  }
+
   const orderNumber = `GB-${Date.now()}`;
 
   const products = cart.items.map((item) => ({
@@ -35,19 +57,18 @@ export const createOrderService = async (userId) => {
   return order;
 };
 
-export const findOrdersByUserService = async (
-  userId
-) => {
+
+export const findOrdersByUserService = async ( userId ) => {
   return await Order.find({ userId })
     .sort({ createdAt: -1 });
 };
 
-export const findOrderByIdService = async (
-  orderId
-) => {
+
+export const findOrderByIdService = async ( orderId ) => {
   return await Order.findById(orderId)
     .populate("userId", "name email");
 };
+
 
 export const findAllOrdersService = async () => {
   return await Order.find()

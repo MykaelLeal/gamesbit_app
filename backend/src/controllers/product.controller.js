@@ -130,7 +130,7 @@ const updateProduct = async (req, res) => {
 
   try {
 
-    const {title, description, category, platform, price, stock, image, active} = req.body;
+    const {title, description, category, platform,oldPrice, price, stock, image, active} = req.body;
 
     if (!title && !description && !category && !platform && !price && !stock && !image &&
        active === undefined
@@ -151,6 +151,7 @@ const updateProduct = async (req, res) => {
       description,
       category,
       platform,
+      oldPrice,
       price,
       stock,
       image,

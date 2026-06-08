@@ -7,21 +7,23 @@ import {
 
 import api from "../service/api";
 
+import { AuthContext } from "./AuthContext";
+
 const CartContext = createContext();
 
 export function CartProvider({ children }) {
   const [cart, setCart] = useState([]);
   const [total, setTotal] = useState(0);
+  const { user } = useContext(AuthContext);
 
   useEffect(() => {
-    const token = localStorage.getItem(
-      "@Auth:token"
-    );
-
-    if (token) {
+    if (user) {
       loadCart();
+    } else {
+      setCart([]);
+      setTotal(0);
     }
-  }, []);
+  }, [user]);
 
   const loadCart = async () => {
     try {

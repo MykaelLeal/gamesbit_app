@@ -7,10 +7,13 @@ import {
 
 import api from "../service/api";
 
+import { AuthContext } from "./AuthContext";
+
 const OrdersContext = createContext();
 
 export const OrdersProvider = ({ children }) => {
   const [orders, setOrders] = useState([]);
+  const { user } = useContext(AuthContext);
 
   const loadOrders = async () => {
     try {
@@ -28,56 +31,33 @@ export const OrdersProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    const token =
-      localStorage.getItem(
-        "@Auth:token"
-      );
-
-    if (token) {
+    if (user) {
       loadOrders();
+    } else {
+      setOrders([]);
     }
-  }, []);
+  }, [user]);
 
-
-  const addOrder = async () => {
-    try {
-      const response = await api.post("/orders");
-
-      setOrders((prev) => [
-        response.data.order,
-        ...prev,
-      ]);
-
-      return response.data.order;
-
-    } catch (error) {
-      console.error(error.response?.data);
-      return null;
-    }
-  };
-
-
-  const getOrderById = async ( orderId ) => {
-    try {
-      const response =
-        await api.get(
-          `/orders/${orderId}`
-        );
-
-      return response.data;
-    } catch (error) {
-      console.error(error);
-      return null;
-    }
-  };
   
+ const addOrder = async () => {
+  try {
+    const response = await api.post("/orders");
+
+    await loadOrders();
+
+    return response.data.order;
+  } catch (error) {
+    console.error(error.response?.data);
+    return null;
+  }
+};
+
 
   return (
     <OrdersContext.Provider
       value={{
         orders,
         addOrder,
-        getOrderById,
         loadOrders,
       }}
     >
