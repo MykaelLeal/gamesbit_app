@@ -7,6 +7,10 @@ import {
 
 import api from "../../service/api";
 
+import "../../styles/userAdmin.css";
+
+
+
 export function UsersAdmin() {
   const [users, setUsers] = useState([]);
 
@@ -25,7 +29,16 @@ export function UsersAdmin() {
       const response =
         await api.get("/user/");
 
-      setUsers(response.data);
+      const sortedUsers =
+        response.data.sort((a, b) =>
+          a.name.localeCompare(
+            b.name,
+            "pt-BR",
+            { sensitivity: "base" }
+          )
+        );
+
+      setUsers(sortedUsers);
     } catch (error) {
       console.error(error);
     }

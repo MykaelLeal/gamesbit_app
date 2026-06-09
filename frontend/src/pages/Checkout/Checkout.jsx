@@ -39,7 +39,7 @@ export const Checkout = () => {
 
     const storedProfile = JSON.parse(
       localStorage.getItem(
-        `@profile:${user.id}`
+        `@profile:${user._id}`
       )
     );
 
@@ -104,7 +104,7 @@ export const Checkout = () => {
 
     try {
       localStorage.setItem(
-        `@profile:${user.id}`,
+        `@profile:${user._id}`,
         JSON.stringify(profile)
       );
 
@@ -363,14 +363,14 @@ export const Checkout = () => {
                   >
 
                     <img
-                      src={item.image}
-                      alt={item.name}
+                      src={item.productId.image}
+                      alt={item.productId.title}
                     />
 
                     <div className="order-info">
 
                       <p className="order-name">
-                        {item.name}
+                        {item.productId.title}
                       </p>
 
                       <p className="order-qty">
@@ -381,19 +381,31 @@ export const Checkout = () => {
                     </div>
 
                     <div className="order-price">
-
-                      {(
-                        item.price *
-                        item.quantity
-                      ).toLocaleString(
-                        "pt-BR",
-                        {
-                          style:
-                            "currency",
-                          currency:
-                            "BRL",
-                        }
+                      {item.productId.oldPrice &&
+                        item.productId.oldPrice >
+                          item.productId.price && (
+                          <span
+                            className="old-price-checkout"
+                          >
+                            {(
+                              item.productId.oldPrice *
+                              item.quantity
+                            ).toLocaleString("pt-BR", {
+                              style: "currency",
+                              currency: "BRL",
+                            })}
+                          </span>
                       )}
+
+                      <span className="current-price-checkout">
+                        {(
+                          item.productId.price *
+                          item.quantity
+                        ).toLocaleString("pt-BR", {
+                          style: "currency",
+                          currency: "BRL",
+                        })}
+                      </span>
 
                     </div>
 

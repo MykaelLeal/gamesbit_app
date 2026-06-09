@@ -35,7 +35,7 @@ export const ProductList = ({
         <section className="category-section">
 
           <h2>
-            🔥 Ofertas Imperdíveis
+            Ofertas Imperdíveis
           </h2>
 
           <div className="products">

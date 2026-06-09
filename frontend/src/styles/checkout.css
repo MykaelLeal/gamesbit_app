@@ -238,6 +238,24 @@ main {
   transform: translateY(-1px);
 }
 
+.order-price {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.old-price-checkout {
+  text-decoration: line-through;
+  color: #888;
+  font-size: 0.9rem;
+}
+
+.current-price-checkout {
+  color: #2ecc71;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
 
 @media (max-width: 900px) {
   .checkout-container {

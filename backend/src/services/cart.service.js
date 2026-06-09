@@ -9,10 +9,22 @@ const calculateTotal = (items) => {
 };
 
 export const findCartByUserIdService = async (userId) => {
-  return await Cart.findOne({ userId }).populate(
+  const cart = await Cart.findOne({ userId }).populate(
     "items.productId",
-    "title price image category platform"
+    "title price oldPrice image category platform"
   );
+
+  if (!cart) return null;
+
+  cart.items.forEach((item) => {
+    item.price = item.productId.price;
+  });
+
+  cart.total = calculateTotal(cart.items);
+
+  await cart.save();
+
+  return cart;
 };
 
 export const createCartService = async (userId) => {

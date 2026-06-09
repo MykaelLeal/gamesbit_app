@@ -15,14 +15,15 @@ import api from "../../service/api";
 import "../../styles/productAdmin.css";
 
 export function ProductsAdmin() {
-  const [products, setProducts] =
-    useState([]);
+  const [products, setProducts] = useState([]);
 
-  const [editingId, setEditingId] =
-    useState(null);
+  const [editingId, setEditingId] = useState(null);
 
-  const [showForm, setShowForm] =
-    useState(false);
+  const [showForm, setShowForm] = useState(false);
+
+  const [showDeleteModal, setShowDeleteModal] =  useState(false);
+
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
   const [form, setForm] =
     useState({
@@ -139,27 +140,26 @@ export function ProductsAdmin() {
     setShowForm(true);
   };
 
-  const deleteProduct = async (
-    id
-  ) => {
-    const confirmDelete =
-      window.confirm(
-        "Deseja excluir este produto?"
-      );
-
-    if (!confirmDelete)
-      return;
-
+  const confirmDelete = async () => {
     try {
       await api.delete(
-        `/product/${id}`
+        `/product/${selectedProduct._id}`
       );
 
       loadProducts();
+
+      setShowDeleteModal(false);
+      setSelectedProduct(null);
+
     } catch (error) {
       console.error(error);
     }
   };
+
+  const openDeleteModal = (product) => {
+    setSelectedProduct(product);
+    setShowDeleteModal(true);
+};
 
   return (
     <section className="admin-card">
@@ -379,9 +379,7 @@ export function ProductsAdmin() {
 
                 <button
                   onClick={() =>
-                    deleteProduct(
-                      product._id
-                    )
+                    openDeleteModal(product)
                   }
                 >
                   <FiTrash2 />
@@ -392,6 +390,67 @@ export function ProductsAdmin() {
             </div>
           )
         )}
+
+        {showDeleteModal && (
+        <div className="admin-modal-overlay">
+
+          <div className="admin-modal">
+
+            <div className="admin-modal-header">
+
+              <h3>
+                Excluir Produto
+              </h3>
+
+              <button
+                onClick={() => {
+                  setShowDeleteModal(false);
+                  setSelectedProduct(null);
+                }}
+              >
+                <FiX />
+              </button>
+
+            </div>
+
+            <p>
+              Tem certeza que deseja excluir o produto
+              <strong>
+                {" "}
+                {selectedProduct?.title}
+              </strong>
+              ?
+            </p>
+
+            <span className="warning-text">
+              Esta ação não poderá ser desfeita.
+            </span>
+
+            <div className="admin-modal-actions">
+
+              <button
+                type="button"
+                onClick={() => {
+                  setShowDeleteModal(false);
+                  setSelectedProduct(null);
+                }}
+              >
+                Cancelar
+              </button>
+
+              <button
+                type="button"
+                onClick={confirmDelete}
+              >
+                Excluir
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+      )}
 
       </div>
 

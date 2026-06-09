@@ -53,6 +53,8 @@ export const ProductDetails = () => {
     );
   }
 
+  const inStock = product?.stock > 0;
+
   return (
     <>
       <NavBar />
@@ -146,6 +148,7 @@ export const ProductDetails = () => {
               </span>
             </div>
 
+            {inStock ? (
             <button
               className="buy-now-btn"
               onClick={() => {
@@ -155,6 +158,14 @@ export const ProductDetails = () => {
             >
               Comprar agora
             </button>
+          ) : (
+            <button
+              className="buy-now-btn disabled"
+              disabled
+            >
+              Produto indisponível
+            </button>
+          )}
           </div>
         </div>
       </main>
