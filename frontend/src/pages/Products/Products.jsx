@@ -22,8 +22,7 @@ export const Products = () => {
   } = useParams();
 
   const { addItem } = useCart();
-  const { toggleWishlist, isInWishlist } =
-    useWishlist();
+  const { toggleWishlist, isInWishlist } = useWishlist();
 
   const [products, setProducts] = useState([]);
 
@@ -49,10 +48,6 @@ export const Products = () => {
   const [selectedProduct, setSelectedProduct] =
     useState(null);
 
-  useEffect(() => {
-    loadProducts();
-  }, []);
-
   const loadProducts = async () => {
     try {
       const response =
@@ -68,6 +63,11 @@ export const Products = () => {
       console.error(error);
     }
   };
+
+  useEffect(() => {
+    loadProducts();
+  }, []);
+  
 
   const handleAdd = (product) => {
     addItem(product);

@@ -22,12 +22,7 @@ export const ProductDetails = () => {
   const { toggleWishlist, isInWishlist } =
     useWishlist();
 
-  const [product, setProduct] =
-    useState(null);
-
-  useEffect(() => {
-    loadProduct();
-  }, [id]);
+  const [product, setProduct] = useState(null);
 
   const loadProduct = async () => {
     try {
@@ -40,6 +35,11 @@ export const ProductDetails = () => {
     }
   };
 
+   useEffect(() => {
+    loadProduct();
+  }, [id]);
+
+  
   if (!product) {
     return (
       <>

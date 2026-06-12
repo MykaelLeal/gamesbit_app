@@ -308,6 +308,13 @@ input[type="number"] {
     rgba(255, 59, 48, 0.35);
 }
 
+.error-message {
+  display: block;
+  margin-top: 4px;
+  color: #ff4d4f;
+  font-size: 0.85rem;
+}
+
 @keyframes modalShow {
   from {
     opacity: 0;

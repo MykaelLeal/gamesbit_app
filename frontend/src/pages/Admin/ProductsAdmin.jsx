@@ -1,18 +1,11 @@
-import {
-  FiEdit2,
-  FiTrash2,
-  FiPlus,
-  FiX,
-} from "react-icons/fi";
+import {FiEdit2, FiTrash2, FiPlus, FiX} from "react-icons/fi";
 
-import {
-  useEffect,
-  useState,
-} from "react";
+import {useEffect, useState} from "react";
 
 import api from "../../service/api";
 
 import "../../styles/productAdmin.css";
+
 
 export function ProductsAdmin() {
   const [products, setProducts] = useState([]);
@@ -24,6 +17,8 @@ export function ProductsAdmin() {
   const [showDeleteModal, setShowDeleteModal] =  useState(false);
 
   const [selectedProduct, setSelectedProduct] = useState(null);
+
+  const [errors, setErrors] = useState({});
 
   const [form, setForm] =
     useState({
@@ -37,9 +32,6 @@ export function ProductsAdmin() {
       image: "",
     });
 
-  useEffect(() => {
-    loadProducts();
-  }, []);
 
   const loadProducts = async () => {
     try {
@@ -52,8 +44,15 @@ export function ProductsAdmin() {
     }
   };
 
+
+  useEffect(() => {
+    loadProducts();
+  }, []);
+
+
   const resetForm = () => {
     setEditingId(null);
+    setErrors({});
 
     setForm({
       title: "",
@@ -67,59 +66,85 @@ export function ProductsAdmin() {
     });
   };
 
+
+  const validateForm = () => {
+    const newErrors = {};
+
+    if (!form.title.trim()) {
+      newErrors.title = "Título obrigatório";
+    }
+
+    if (!form.description.trim()) {
+      newErrors.description = "Descrição obrigatória";
+    }
+
+    if (!form.image.trim()) {
+      newErrors.image = "Imagem obrigatória";
+    } else {
+      try {
+        new URL(form.image);
+      } catch {
+        newErrors.image =
+          "URL da imagem inválida";
+      }
+    }
+
+    if (!form.price || Number(form.price) <= 0) {
+      newErrors.price =
+        "Preço deve ser maior que zero";
+    }
+
+    if (
+      form.oldPrice &&
+      Number(form.oldPrice) <= 0
+    ) {
+      newErrors.oldPrice =
+        "Preço promocional inválido";
+    }
+
+    if (
+      form.oldPrice &&
+      Number(form.oldPrice) <=
+        Number(form.price)
+    ) {
+      newErrors.oldPrice =
+        "Preço antigo deve ser maior que o preço normal";
+    }
+
+    if (!form.stock && form.stock !== 0) {
+      newErrors.stock =
+        "Estoque obrigatório";
+    } else if (
+      Number(form.stock) < 0
+    ) {
+      newErrors.stock =
+        "Estoque não pode ser negativo";
+    }
+
+    setErrors(newErrors);
+
+    return (
+      Object.keys(newErrors).length === 0
+    );
+  };
+
+
   const handleChange = (e) => {
+    const { name, value } = e.target;
+
     setForm({
       ...form,
-      [e.target.name]:
-        e.target.value,
+      [name]: value,
     });
+
+    setErrors((prev) => ({
+      ...prev,
+      [name]: "",
+    }));
   };
 
-  const handleSubmit = async (
-    e
-  ) => {
-    e.preventDefault();
 
-    try {
-      const payload = {
-        ...form,
-        price: Number(
-          form.price
-        ),
-        oldPrice:
-          form.oldPrice
-            ? Number(
-                form.oldPrice
-              )
-            : null,
-        stock: Number(
-          form.stock
-        ),
-      };
-
-      if (editingId) {
-        await api.patch(
-          `/product/${editingId}`,
-          payload
-        );
-      } else {
-        await api.post(
-          "/product/",
-          payload
-        );
-      }
-
-      resetForm();
-      setShowForm(false);
-      loadProducts();
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const handleEdit = (
-    product
-  ) => {
+  const handleEdit = (product) => {
     setEditingId(product._id);
 
     setForm({
@@ -139,6 +164,7 @@ export function ProductsAdmin() {
 
     setShowForm(true);
   };
+
 
   const confirmDelete = async () => {
     try {
@@ -160,6 +186,46 @@ export function ProductsAdmin() {
     setSelectedProduct(product);
     setShowDeleteModal(true);
 };
+
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!validateForm()) {
+      return;
+    }
+
+    try {
+      const payload = {
+        ...form,
+        price: Number(form.price),
+        oldPrice: form.oldPrice
+          ? Number(form.oldPrice)
+          : null,
+        stock: Number(form.stock),
+      };
+
+      if (editingId) {
+        await api.patch(
+          `/product/${editingId}`,
+          payload
+        );
+      } else {
+        await api.post(
+          "/product/",
+          payload
+        );
+      }
+
+      resetForm();
+      setShowForm(false);
+      loadProducts();
+
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
 
   return (
     <section className="admin-card">
@@ -213,25 +279,29 @@ export function ProductsAdmin() {
           <input
             type="text"
             name="title"
-            placeholder="Título"
             value={form.title}
-            onChange={
-              handleChange
-            }
-            required
+            onChange={handleChange}
           />
+
+          {errors.title && (
+            <span className="error-message">
+              {errors.title}
+            </span>
+          )}
 
           <textarea
             name="description"
             placeholder="Descrição"
-            value={
-              form.description
-            }
-            onChange={
-              handleChange
-            }
-            required
+            value={form.description}
+            onChange={handleChange}
+            
           />
+
+          {errors.description && (
+            <span className="error-message">
+              {errors.description}
+            </span>
+          )}
 
           <select
             name="category"
@@ -282,45 +352,59 @@ export function ProductsAdmin() {
             name="price"
             placeholder="Preço"
             value={form.price}
-            onChange={
-              handleChange
-            }
-            required
+            onChange={handleChange}
+
           />
+
+            {errors.price && (
+            <span className="error-message">
+              {errors.price}
+            </span>
+          )}
 
           <input
             type="number"
             name="oldPrice"
-            placeholder="Preço promocional"
-            value={
-              form.oldPrice
-            }
-            onChange={
-              handleChange
-            }
+            placeholder="Preço antigo"
+            value={form.oldPrice}
+            onChange={handleChange}
           />
+
+          {errors.oldPrice && (
+            <span className="error-message">
+              {errors.oldPrice}
+            </span>
+          )}
 
           <input
             type="number"
             name="stock"
             placeholder="Estoque"
             value={form.stock}
-            onChange={
-              handleChange
-            }
-            required
+            onChange={handleChange}  
           />
+
+          {errors.stock && (
+            <span className="error-message">
+              {errors.stock}
+            </span>
+          )}
+
 
           <input
             type="text"
             name="image"
             placeholder="URL da imagem"
             value={form.image}
-            onChange={
-              handleChange
-            }
-            required
+            onChange={handleChange}
           />
+
+          {errors.image && (
+            <span className="error-message">
+              {errors.image}
+            </span>
+          )}
+
 
           <button
             type="submit"
