@@ -374,5 +374,4 @@ Frontend disponível em:
 
 ```txt
 http://localhost:3000
-```
 
