@@ -376,5 +376,3 @@ Frontend disponível em:
 http://localhost:3000
 ```
 
-```
-```
