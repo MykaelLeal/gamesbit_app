@@ -334,7 +334,9 @@ cd backend
 npm install
 ```
 
-## Configure o arquivo .env
+## Configure o arquivo .env na pasta do backend
+
+o arquivo .env foi enviado dentro de um arquivo zip junto com o documento de instruções do projeto. Mova o arquivo .env para a pasta raiz do backend.
 
 ## Execute o servidor
 
