@@ -149,7 +149,7 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 
-.admin-modal-overlay {
+.admin-product-modal-overlay {
   position: fixed;
   inset: 0;
 
@@ -164,7 +164,7 @@ input[type="number"] {
   backdrop-filter: blur(6px);
 }
 
-.admin-modal {
+.admin-product-modal {
   width: 100%;
   max-width: 420px;
 
@@ -184,7 +184,7 @@ input[type="number"] {
   animation: modalShow 0.25s ease;
 }
 
-.admin-modal-header {
+.admin-product-modal-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -192,13 +192,13 @@ input[type="number"] {
   margin-bottom: 18px;
 }
 
-.admin-modal-header h3 {
+.admin-product-modal-header h3 {
   color: #fff;
   font-size: 1.3rem;
   font-weight: 700;
 }
 
-.admin-modal-header button {
+.admin-product-modal-header button {
   border: none;
   background: rgba(255, 255, 255, 0.08);
 
@@ -216,7 +216,7 @@ input[type="number"] {
   transition: 0.2s;
 }
 
-.admin-modal-header button:hover {
+.admin-product-modal-header button:hover {
   background: rgba(
     255,
     255,
@@ -227,7 +227,7 @@ input[type="number"] {
   transform: rotate(90deg);
 }
 
-.admin-modal p {
+.admin-product-modal p {
   color: #e5e7eb;
 
   line-height: 1.6;
@@ -236,11 +236,11 @@ input[type="number"] {
   margin-bottom: 12px;
 }
 
-.admin-modal strong {
+.admin-product-modal strong {
   color: #fff;
 }
 
-.warning-text {
+.warning-product-text {
   display: block;
 
   color: #ff6b6b;
@@ -251,12 +251,12 @@ input[type="number"] {
   margin-bottom: 22px;
 }
 
-.admin-modal-actions {
+.admin-product-modal-actions {
   display: flex;
   gap: 12px;
 }
 
-.admin-modal-actions button {
+.admin-product-modal-actions button {
   flex: 1;
 
   border: none;
@@ -271,7 +271,7 @@ input[type="number"] {
   transition: all 0.2s ease;
 }
 
-.admin-modal-actions button:first-child {
+.admin-product-modal-actions button:first-child {
   background: rgba(
     255,
     255,
@@ -282,7 +282,7 @@ input[type="number"] {
   color: white;
 }
 
-.admin-modal-actions button:first-child:hover {
+.admin-product-modal-actions button:first-child:hover {
   background: rgba(
     255,
     255,
@@ -291,7 +291,7 @@ input[type="number"] {
   );
 }
 
-.admin-modal-actions button:last-child {
+.admin-product-modal-actions button:last-child {
   background: linear-gradient(
     135deg,
     #ff3b30,
@@ -301,7 +301,7 @@ input[type="number"] {
   color: white;
 }
 
-.admin-modal-actions button:last-child:hover {
+.admin-product-modal-actions button:last-child:hover {
   transform: translateY(-2px);
 
   box-shadow: 0 8px 20px
@@ -332,12 +332,12 @@ input[type="number"] {
 }
 
 @media (max-width: 480px) {
-  .admin-modal {
+  .admin-product-modal {
     width: calc(100% - 24px);
     padding: 20px;
   }
 
-  .admin-modal-actions {
+  .admin-product-modal-actions {
     flex-direction: column;
   }
 }

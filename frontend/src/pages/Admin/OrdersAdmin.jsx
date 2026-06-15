@@ -2,15 +2,12 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../service/api";
 
-export function OrdersAdmin() {
+export const OrdersAdmin = () => {
+
   const navigate = useNavigate();
 
-  const [orders, setOrders] =
-    useState([]);
+  const [orders, setOrders] = useState([]);
 
-  useEffect(() => {
-    loadOrders();
-  }, []);
 
   const loadOrders = async () => {
     try {
@@ -22,6 +19,11 @@ export function OrdersAdmin() {
       console.error(error);
     }
   };
+
+  useEffect(() => {
+    loadOrders();
+  }, []);
+
 
   return (
     <section className="admin-card">

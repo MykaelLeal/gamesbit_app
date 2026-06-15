@@ -8,6 +8,7 @@ const calculateTotal = (items) => {
   );
 };
 
+
 export const findCartByUserIdService = async (userId) => {
   const cart = await Cart.findOne({ userId }).populate(
     "items.productId",
@@ -27,6 +28,7 @@ export const findCartByUserIdService = async (userId) => {
   return cart;
 };
 
+
 export const createCartService = async (userId) => {
   const existingCart = await Cart.findOne({ userId });
 
@@ -43,11 +45,13 @@ export const createCartService = async (userId) => {
   return cart;
 };
 
+
 export const addItemToCartService = async (
   userId,
   productId,
   quantity = 1
 ) => {
+
   const product = await Product.findById(productId);
 
   if (!product) {
@@ -63,6 +67,7 @@ export const addItemToCartService = async (
       total: 0,
     });
   }
+
 
   const existingItem = cart.items.find(
     (item) => item.productId.toString() === productId
@@ -85,11 +90,13 @@ export const addItemToCartService = async (
   return cart;
 };
 
+
 export const updateItemQuantityService = async (
   userId,
   productId,
   quantity
 ) => {
+
   const cart = await Cart.findOne({ userId });
 
   if (!cart) {
@@ -119,10 +126,12 @@ export const updateItemQuantityService = async (
   return cart;
 };
 
+
 export const removeItemFromCartService = async (
   userId,
   productId
 ) => {
+
   const cart = await Cart.findOne({ userId });
 
   if (!cart) {
@@ -139,6 +148,7 @@ export const removeItemFromCartService = async (
 
   return cart;
 };
+
 
 export const clearCartService = async (userId) => {
   const cart = await Cart.findOne({ userId });

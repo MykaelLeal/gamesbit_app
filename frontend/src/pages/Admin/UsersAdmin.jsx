@@ -1,28 +1,19 @@
 import { useEffect, useState } from "react";
 
-import {
-  FiTrash2,
-  FiX,
-} from "react-icons/fi";
+import  {FiTrash2, FiX } from "react-icons/fi";
 
 import api from "../../service/api";
 
 import "../../styles/userAdmin.css";
 
 
+export const UsersAdmin = () => {
 
-export function UsersAdmin() {
   const [users, setUsers] = useState([]);
 
-  const [showModal, setShowModal] =
-    useState(false);
+  const [showModal, setShowModal] = useState(false);
 
-  const [selectedUser, setSelectedUser] =
-    useState(null);
-
-  useEffect(() => {
-    loadUsers();
-  }, []);
+  const [selectedUser, setSelectedUser] = useState(null);
 
   const loadUsers = async () => {
     try {
@@ -44,10 +35,17 @@ export function UsersAdmin() {
     }
   };
 
+
+  useEffect(() => {
+    loadUsers();
+  }, []);
+
+ 
   const openDeleteModal = (user) => {
     setSelectedUser(user);
     setShowModal(true);
   };
+
 
   const confirmDelete = async () => {
     try {
@@ -68,6 +66,7 @@ export function UsersAdmin() {
       console.error(error);
     }
   };
+
 
   return (
     <section className="admin-card">
@@ -104,9 +103,9 @@ export function UsersAdmin() {
       </div>
 
       {showModal && (
-        <div className="admin-modal-overlay">
-          <div className="admin-modal">
-            <div className="admin-modal-header">
+        <div className="admin-user-modal-overlay">
+          <div className="admin-user-modal">
+            <div className="admin-user-modal-header">
               <h3>
                 Excluir Usuário
               </h3>
@@ -130,7 +129,7 @@ export function UsersAdmin() {
               ?
             </p>
 
-            <div className="admin-modal-actions">
+            <div className="admin-user-modal-actions">
               <button
                 type="button"
                 onClick={() => {

@@ -15,16 +15,13 @@ import { UsersAdmin } from "./UsersAdmin";
 
 import "../../styles/dashboard.css";
 
-export function Dashboard() {
-  const { signOut } =
-    useContext(AuthContext);
+export const Dashboard = () => {
 
-  const [activeSection, setActiveSection] =
-    useState("products");
+  const { signOut } = useContext(AuthContext);
 
-  const handleLogout = () => {
-    signOut();
-  };
+  const [activeSection, setActiveSection] = useState("products");
+
+  const handleLogout = () => { signOut() };
 
   return (
     <div className="admin-page">

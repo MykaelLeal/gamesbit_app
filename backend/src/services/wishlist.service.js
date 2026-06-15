@@ -9,6 +9,7 @@ export const addProductToWishlistService = async (
   userId,
   productId
 ) => {
+
   const product = await Product.findById(productId);
 
   if (!product) {
@@ -39,10 +40,12 @@ export const addProductToWishlistService = async (
   return wishlist;
 };
 
+
 export const removeProductFromWishlistService = async (
   userId,
   productId
 ) => {
+
   const wishlist = await Wishlist.findOne({ userId });
 
   if (!wishlist) {
@@ -58,6 +61,7 @@ export const removeProductFromWishlistService = async (
   return wishlist;
 };
 
+
 export const clearWishlistService = async (userId) => {
   const wishlist = await Wishlist.findOne({ userId });
 
@@ -72,10 +76,12 @@ export const clearWishlistService = async (userId) => {
   return wishlist;
 };
 
+
 export const checkProductInWishlistService = async (
   userId,
   productId
 ) => {
+  
   const wishlist = await Wishlist.findOne({ userId });
 
   if (!wishlist) {

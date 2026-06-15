@@ -7,7 +7,7 @@ import api from "../../service/api";
 import "../../styles/productAdmin.css";
 
 
-export function ProductsAdmin() {
+export const ProductsAdmin = () => {
   const [products, setProducts] = useState([]);
 
   const [editingId, setEditingId] = useState(null);
@@ -476,11 +476,11 @@ export function ProductsAdmin() {
         )}
 
         {showDeleteModal && (
-        <div className="admin-modal-overlay">
+        <div className="admin-product-modal-overlay">
 
-          <div className="admin-modal">
+          <div className="admin-product-modal">
 
-            <div className="admin-modal-header">
+            <div className="admin-product-modal-header">
 
               <h3>
                 Excluir Produto
@@ -506,11 +506,11 @@ export function ProductsAdmin() {
               ?
             </p>
 
-            <span className="warning-text">
+            <span className="warning-product-text">
               Esta ação não poderá ser desfeita.
             </span>
 
-            <div className="admin-modal-actions">
+            <div className="admin-product-modal-actions">
 
               <button
                 type="button"

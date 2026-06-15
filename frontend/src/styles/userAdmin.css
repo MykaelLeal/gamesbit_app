@@ -1,4 +1,4 @@
-.admin-modal-overlay {
+.admin-user-modal-overlay {
   position: fixed;
   inset: 0;
 
@@ -13,7 +13,7 @@
   backdrop-filter: blur(6px);
 }
 
-.admin-modal {
+.admin-user-modal {
   width: 100%;
   max-width: 420px;
 
@@ -33,7 +33,7 @@
   animation: modalShow 0.25s ease;
 }
 
-.admin-modal-header {
+.admin-user-modal-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -41,13 +41,13 @@
   margin-bottom: 18px;
 }
 
-.admin-modal-header h3 {
+.admin-user-modal-header h3 {
   color: #fff;
   font-size: 1.3rem;
   font-weight: 700;
 }
 
-.admin-modal-header button {
+.admin-user-modal-header button {
   border: none;
   background: rgba(255, 255, 255, 0.08);
 
@@ -65,7 +65,7 @@
   transition: 0.2s;
 }
 
-.admin-modal-header button:hover {
+.admin-user-modal-header button:hover {
   background: rgba(
     255,
     255,
@@ -76,7 +76,7 @@
   transform: rotate(90deg);
 }
 
-.admin-modal p {
+.admin-user-modal p {
   color: #e5e7eb;
 
   line-height: 1.6;
@@ -85,11 +85,11 @@
   margin-bottom: 12px;
 }
 
-.admin-modal strong {
+.admin-user-modal strong {
   color: #fff;
 }
 
-.warning-text {
+.warning-user-text {
   display: block;
 
   color: #ff6b6b;
@@ -100,12 +100,12 @@
   margin-bottom: 22px;
 }
 
-.admin-modal-actions {
+.admin-user-modal-actions {
   display: flex;
   gap: 12px;
 }
 
-.admin-modal-actions button {
+.admin-user-modal-actions button {
   flex: 1;
 
   border: none;
@@ -120,7 +120,7 @@
   transition: all 0.2s ease;
 }
 
-.admin-modal-actions button:first-child {
+.admin-user-modal-actions button:first-child {
   background: rgba(
     255,
     255,
@@ -131,7 +131,7 @@
   color: white;
 }
 
-.admin-modal-actions button:first-child:hover {
+.admin-user-modal-actions button:first-child:hover {
   background: rgba(
     255,
     255,
@@ -140,7 +140,7 @@
   );
 }
 
-.admin-modal-actions button:last-child {
+.admin-user-modal-actions button:last-child {
   background: linear-gradient(
     135deg,
     #ff3b30,
@@ -150,7 +150,7 @@
   color: white;
 }
 
-.admin-modal-actions button:last-child:hover {
+.admin-user-modal-actions button:last-child:hover {
   transform: translateY(-2px);
 
   box-shadow: 0 8px 20px
@@ -174,12 +174,12 @@
 }
 
 @media (max-width: 480px) {
-  .admin-modal {
+  .admin-user-modal {
     width: calc(100% - 24px);
     padding: 20px;
   }
 
-  .admin-modal-actions {
+  .admin-user-modal-actions {
     flex-direction: column;
   }
 }
