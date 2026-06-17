@@ -276,55 +276,65 @@ export const ProductsAdmin = () => {
 
           </div>
 
-          <input
-            type="text"
-            name="title"
-            value={form.title}
-            onChange={handleChange}
-          />
+          <div className="form-group">
+            <label>Título</label>
+            <input
+              type="text"
+              name="title"
+              value={form.title}
+              onChange={handleChange}
+            />
 
-          {errors.title && (
-            <span className="error-message">
-              {errors.title}
-            </span>
-          )}
+            {errors.title && (
+              <span className="error-message">
+                {errors.title}
+              </span>
+            )}
+          </div>
 
-          <textarea
-            name="description"
-            placeholder="Descrição"
-            value={form.description}
-            onChange={handleChange}
-            
-          />
+          <div className="form-group">
+            <label>Descrição</label>
+            <textarea
+              name="description"
+              value={form.description}
+              onChange={handleChange}
+              
+            />
 
-          {errors.description && (
-            <span className="error-message">
-              {errors.description}
-            </span>
-          )}
+            {errors.description && (
+              <span className="error-message">
+                {errors.description}
+              </span>
+            )}
+          </div>
 
-          <select
-            name="category"
-            value={
-              form.category
-            }
-            onChange={
-              handleChange
-            }
-          >
-            <option value="retro">
-              Retrô
-            </option>
+          <div className="form-group">
+            <label>Categoria</label>
+            <select
+              name="category"
+              value={
+                form.category
+              }
+              onChange={
+                handleChange
+              }
+            >
+              <option value="retro">
+                Retrô
+              </option>
 
-            <option value="classico">
-              Clássico
-            </option>
+              <option value="classico">
+                Clássico
+              </option>
 
-            <option value="moderno">
-              Moderno
-            </option>
-          </select>
+              <option value="moderno">
+                Moderno
+              </option>
+            </select>
+          </div>
 
+        <div className="form-group">
+          <label>Plataforma</label>
           <select
             name="platform"
             value={
@@ -346,11 +356,14 @@ export const ProductsAdmin = () => {
               Nintendo
             </option>
           </select>
+         </div>
 
+
+        <div className="form-group">
+          <label>Preço</label>
           <input
             type="number"
             name="price"
-            placeholder="Preço"
             value={form.price}
             onChange={handleChange}
 
@@ -361,11 +374,14 @@ export const ProductsAdmin = () => {
               {errors.price}
             </span>
           )}
+        </div>
 
+
+        <div className="form-group">
+          <label>Preço antigo</label>
           <input
             type="number"
             name="oldPrice"
-            placeholder="Preço antigo"
             value={form.oldPrice}
             onChange={handleChange}
           />
@@ -375,11 +391,13 @@ export const ProductsAdmin = () => {
               {errors.oldPrice}
             </span>
           )}
+        </div>
 
+        <div className="form-group">
+          <label>Estoque</label>
           <input
             type="number"
             name="stock"
-            placeholder="Estoque"
             value={form.stock}
             onChange={handleChange}  
           />
@@ -389,12 +407,13 @@ export const ProductsAdmin = () => {
               {errors.stock}
             </span>
           )}
+         </div>
 
-
+        <div className="form-group">
+          <label>URL da imagem</label>
           <input
             type="text"
             name="image"
-            placeholder="URL da imagem"
             value={form.image}
             onChange={handleChange}
           />
@@ -404,6 +423,7 @@ export const ProductsAdmin = () => {
               {errors.image}
             </span>
           )}
+        </div>
 
 
           <button

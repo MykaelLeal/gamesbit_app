@@ -21,6 +21,13 @@
     0 0 25px rgba(139, 92, 246, 0.12);
 }
 
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  color: #fff;
+}
+
 .admin-form textarea {
   grid-column: span 2;
   min-height: 140px;
